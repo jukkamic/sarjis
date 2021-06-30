@@ -12,9 +12,10 @@ BOT_NAME = 'sarjis'
 SPIDER_MODULES = ['sarjis.spiders']
 NEWSPIDER_MODULE = 'sarjis.spiders'
 
+DB_URI = 'sarjis.db'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'sarjis (+http://www.yourdomain.com)'
+USER_AGENT = 'sarjis (+http://www.minkasasiinavittuteet.com)'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -62,9 +63,9 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'sarjis.pipelines.SarjisPipeline': 300,
-#}
+ITEM_PIPELINES = {
+    'sarjis.pipelines.SarjisPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html

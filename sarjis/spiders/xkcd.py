@@ -14,17 +14,10 @@ class XkcdSpider(scrapy.Spider):
 
             #            print("COMIC === " + comic)
             title = comic.xpath('//div[@id="ctitle"]/text()').extract_first()
-            imgurl = comic.xpath('//div[@id="comic"]/img/@src').extract_first()
+            imgurl = "https:" + comic.xpath('//div[@id="comic"]/img/@src').extract_first()
             alt = comic.xpath('//div[@id="comic"]/img/@title').extract_first()
-#            alt = response.xpath(('//div[@id="comic"]/img/@title').extract_first()
-
-            print("============================")
-            print(title)
-            print(imgurl)
-            print(alt)
-#            print(alt)
-            print("============================")
             yield {
+                'name': "xkcd",
                 'title': title,
                 'imgurl': imgurl,
                 'alt': alt,

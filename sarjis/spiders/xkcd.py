@@ -9,26 +9,26 @@ class XkcdSpider(scrapy.Spider):
     start_urls = ["http://54.217.147.107/xkcd/"]
 
     def parse(self, response):
-            for comic in response.xpath('//div[@id="middleContainer"]'):
-#            comic = response.xpath('//div[@id="middleContainer"]')
+        for comic in response.xpath('//div[@id="middleContainer"]'):
+            #            comic = response.xpath('//div[@id="middleContainer"]')
 
-#            print("COMIC === " + comic)
-                title = comic.xpath('//div[@id="ctitle"]/text()').extract_first()
-                imgurl = comic.xpath('//div[@id="comic"]/img/@src').extract_first()
-                alt = comic.xpath('//div[@id="comic"]/img/@title').extract_first()
+            #            print("COMIC === " + comic)
+            title = comic.xpath('//div[@id="ctitle"]/text()').extract_first()
+            imgurl = comic.xpath('//div[@id="comic"]/img/@src').extract_first()
+            alt = comic.xpath('//div[@id="comic"]/img/@title').extract_first()
 #            alt = response.xpath(('//div[@id="comic"]/img/@title').extract_first()
 
-                print("============================")
-                print(title)
-                print(imgurl)
-                print(alt)
+            print("============================")
+            print(title)
+            print(imgurl)
+            print(alt)
 #            print(alt)
-                print("============================")
-                yield {
-                    'title': title,
-                    'imgurl': imgurl,
-                    'alt': alt,
-                }
+            print("============================")
+            yield {
+                'title': title,
+                'imgurl': imgurl,
+                'alt': alt,
+            }
 
 
 #            yield {
@@ -36,4 +36,3 @@ class XkcdSpider(scrapy.Spider):
 #                'imgurl': strip.xpath('.´/div[@id="comic"]/img/@src').extract_first(),
 #                'alt': strip.xpath('./div[@id="comic"]/img/@title').extract_first(),
 #            }
-

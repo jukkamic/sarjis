@@ -14,7 +14,9 @@ class XkcdSpider(scrapy.Spider):
             imgurl = "https:" + comic.xpath('//div[@id="comic"]/img/@src').extract_first()
             alt = comic.xpath('//div[@id="comic"]/img/@title').extract_first()
             yield {
-                'name': "xkcd",
+                'name': self.name,
+                'date': '',
+                'number': '',
                 'title': title,
                 'imgurl': imgurl,
                 'alt': alt,

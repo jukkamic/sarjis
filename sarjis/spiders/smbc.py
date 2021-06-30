@@ -12,6 +12,9 @@ class SmbcSpider(scrapy.Spider):
             imgurl = "https:" + comic.xpath('//img[@id="cc-comic"]/@src').extract_first()
             yield {
                 'name': self.name,
+                'title': '',
+                'date': '',
+                'number': '',
                 'imgurl': imgurl,
                 'alt': alt,
             }

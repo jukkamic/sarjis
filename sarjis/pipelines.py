@@ -16,11 +16,11 @@ class SarjisPipeline:
     sql_create_sarjis_table = """CREATE TABLE IF NOT EXISTS sarjis (
                                     id integer PRIMARY KEY,
                                     name text NOT NULL,
-                                    date date,
+                                    date text,
                                     number text,
                                     title text,
                                     alt text,
-                                    img_url text
+                                    img_url text NOT NULL
                                 );"""
 
     sql_insert = ''' INSERT INTO sarjis(name, date, number, title, alt, img_url)
@@ -45,13 +45,10 @@ class SarjisPipeline:
             print(e)
 
     def process_item(self, item, spider):
-        print("Process item:")
-        print(item)
         adapter = ItemAdapter(item)
         c = self.conn.cursor()
-        c.execute(self.sql_insert, (adapter['name'], "", "", adapter['title'],adapter['alt'], adapter['imgurl']))
+        c.execute(self.sql_insert, (adapter['name'], adapter['date'], adapter['number'], adapter['title'],adapter['alt'], adapter['imgurl']))
         self.conn.commit()
-        print()
 
     def close_spider(self, spider):
         if self.conn:

@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
-import sqlite3
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ComicService {
+  readonly APIUrl = "http://localhost:8000/sarjis/";
 
-  constructor() { }
+  constructor(private http:HttpClient) { }
 
-  getComic(name:any):
-  conn = sqlite3.connect("../../../sarjis.db")
-
+  getComic(id:any):Observable<any> {
+    return this.http.get<any>(this.APIUrl + id);
+  }
 
 }
 

@@ -5,14 +5,12 @@
 
 import scrapy
 
-
-# name, date, number, title, alt, img_url
-
 class SarjisItem(scrapy.Item):
     name = scrapy.Field()
-    date = scrapy.Field()
+    date_crawl = scrapy.Field()
+    date_publish = scrapy.Field()
     number = scrapy.Field()
     title = scrapy.Field()
     alt = scrapy.Field()
-    imgurl = scrapy.Field()
+    img_url = scrapy.Field()
     pass

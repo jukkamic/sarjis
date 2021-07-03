@@ -6,6 +6,8 @@
 
 import sqlite3
 from sqlite3 import Error
+import http.client
+import json
 
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
@@ -26,6 +28,8 @@ class SarjisPipeline:
     sql_insert = ''' INSERT INTO sarjis(name, date, number, title, alt, img_url)
             VALUES(?,?,?,?,?,?) '''
 
+    conn:any
+
     def __init__(self, db_uri):
         self.db_uri = db_uri
 
@@ -36,20 +40,29 @@ class SarjisPipeline:
         )
 
     def open_spider(self, spider):
-        try:
-            self.conn = sqlite3.connect(self.db_uri)
-            c = self.conn.cursor()
-            c.execute(self.sql_create_sarjis_table)
-            print(sqlite3.version)
-        except Error as e:
-            print(e)
+#        print("Open connection")
+        self.conn = http.client.HTTPConnection('localhost', 8000, timeout=3)
+#        try:
+#            self.conn = sqlite3.connect(self.db_uri)
+#            c = self.conn.cursor()
+#            c.execute(self.sql_create_sarjis_table)
+#            print(sqlite3.version)
+#        except Error as e:
+#            print(e)
 
     def process_item(self, item, spider):
         adapter = ItemAdapter(item)
-        c = self.conn.cursor()
-        c.execute(self.sql_insert, (adapter['name'], adapter['date'], adapter['number'], adapter['title'],adapter['alt'], adapter['imgurl']))
-        self.conn.commit()
+
+#        print(item)
+        self.conn.request("POST", "/sarjis/", json.dumps(item), {'Content-Type': 'text/plain'})
+        response = self.conn.getresponse()
+        print(response.read().decode())
+#         response = self.conn.getresponse()
+#        c = self.conn.cursor()
+#        c.execute(self.sql_insert, (adapter['name'], adapter['date'], adapter['number'], adapter['title'],adapter['alt'], adapter['imgurl']))
+#        self.conn.commit()
 
     def close_spider(self, spider):
         if self.conn:
+#            print("Close connection")
             self.conn.close()

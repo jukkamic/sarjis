@@ -1,4 +1,10 @@
-Comic component
+<div *ngFor="let comic of comicList">
+    <b>{{comic.title}}</b>
+    <div>
+        <img src="{{comic.img_url}}" title="{{comic.alt}}" />
+    </div>
+</div>>
+<!--
 <table>
     <thead>
         <tr>
@@ -12,7 +18,7 @@ Comic component
         </tr>
     </thead>
     <tbody>
-        <tr>
+        <tr *ngFor="let comic of comicList">
             <td>{{comic.id}}</td>
             <td>{{comic.name}}</td>
             <td>{{comic.title}}</td>
@@ -23,3 +29,4 @@ Comic component
         </tr>
     </tbody>
 </table>
+-->

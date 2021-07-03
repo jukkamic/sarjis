@@ -3,8 +3,8 @@ import scrapy
 class XkcdSpider(scrapy.Spider):
     name = 'xkcd'
 #    allowed_domains = ['xkcd.com']
-#    start_urls = ['http://xkcd.com']
-    start_urls = ["http://54.217.147.107/xkcd/"]
+    start_urls = ['http://xkcd.com/']
+#    start_urls = ["http://54.217.147.107/xkcd/"]
 
     count:int = 1
 
@@ -29,8 +29,8 @@ class XkcdSpider(scrapy.Spider):
             # remove count limit
             print("count: ", self.count)
             print("next_page: ", next_page)
-            print("with urljoin: ", response.urljoin("/xkcd" + next_page))
-#            yield scrapy.Request(response.urljoin(next_page))
-            yield scrapy.Request(response.urljoin("/xkcd" + next_page))
+            print("with urljoin: ", response.urljoin(next_page))
+            yield scrapy.Request(response.urljoin(next_page))
+#            yield scrapy.Request(response.urljoin("/xkcd" + next_page))
 
 

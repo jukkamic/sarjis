@@ -17,32 +17,10 @@ def comicApi(request):
 @csrf_exempt
 def comicApi(request, name):
     if name == "xkcd":
-        conn = http.client.HTTPSConnection('xkcd.com')
-        conn.request("GET", "/")
-        response = conn.getresponse()
-        
-        page_html:str = response.read().decode()
-        
-        start = page_html.find("Permanent link to this comic:") + 30
-        end = page_html.find("<br", start)
-        perm_link_xkcd = page_html[start:end]
+        perm_link_xkcd, img_url, title, alt, prev_link, next_link = get_page("https://", "xkcd.com", "/")
 
-        start = page_html.find("Image URL (for hotlinking/embedding):") + 38
-        end = page_html.find(".png", start)
-        img_url = page_html[start:end + 4]
-
-        soup = BeautifulSoup(page_html, features="lxml")
-        title = soup.find('div', {"id":"ctitle"}).contents[0]
-        alt = soup.find('div', {"id":"comic"}).find('img')['title']
-        prev_link = "https://xkcd.com" + soup.find('ul', {"class":"comicNav"}).find('a', {"rel":"prev"})['href']
-
-        next = soup.find('ul', {"class":"comicNav"}).find('a', {"rel":"next"})['href']
-        if next == "#":
-            next_link = ""
-        else:
-            next_link = "https://xkcd.com" + next
-
-        conn.close()
+        # if prev_link exists but prev_id is null create new comic with perm_link only and update prev_id
+        # if next_link does not exist in db
         comic_json = populate_comic_json("xkcd", perm_link_xkcd, img_url, title, alt, prev_link, next_link)
 
         try:
@@ -60,6 +38,35 @@ def comicApi(request, name):
             comic_json['id'] = comic.id
             print("Added comic to database with id:", comic.id)        
         return JsonResponse(comic_json, safe=False)
+
+def get_page(protocol, domain, url):
+    conn = http.client.HTTPSConnection(domain)
+    conn.request("GET", url)
+    response = conn.getresponse()
+        
+    page_html:str = response.read().decode()
+        
+    start = page_html.find("Permanent link to this comic:") + 30
+    end = page_html.find("<br", start)
+    perm_link_xkcd = page_html[start:end]
+
+    start = page_html.find("Image URL (for hotlinking/embedding):") + 38
+    end = page_html.find(".png", start)
+    img_url = page_html[start:end + 4]
+
+    soup = BeautifulSoup(page_html, features="lxml")
+    title = soup.find('div', {"id":"ctitle"}).contents[0]
+    alt = soup.find('div', {"id":"comic"}).find('img')['title']
+    prev_link = protocol + domain + soup.find('ul', {"class":"comicNav"}).find('a', {"rel":"prev"})['href']
+
+    next = soup.find('ul', {"class":"comicNav"}).find('a', {"rel":"next"})['href']
+    if next == "#":
+        next_link = ""
+    else:
+        next_link = protocol + domain + next
+
+    conn.close()
+    return perm_link_xkcd,img_url,title,alt,prev_link,next_link
 
 def populate_comic_json(name, perm_link, img_url, title, alt, prev_link, next_link):
     comic_json = {

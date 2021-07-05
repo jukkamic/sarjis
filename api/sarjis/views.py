@@ -1,3 +1,4 @@
+import io
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.core import serializers
@@ -66,8 +67,9 @@ def comicApi(request, name):
             print("Updated comic id: ", comic.id)
         except Comic.DoesNotExist:
             print("Comic did not exist with perm_link: ", perm_link_xkcd)
-            comic = serializers.deserialize("json", comic_json)
-            comic.save()
+            comic_serializer = ComicSerializer(data = comic_json)
+            if comic_serializer.is_valid():
+                comic = comic_serializer.save()
             comic_json['id'] = comic.id
             print("Added comic to database with id:", comic.id)        
         return JsonResponse(comic_json, safe=False)

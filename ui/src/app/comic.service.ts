@@ -11,12 +11,12 @@ export class ComicService {
 
   constructor(private http:HttpClient) { }
 
-  getComic(id:any):Observable<any> {
-    return this.http.get<any>(this.APIUrl + id);
+  getComic(name:string, id:any):Observable<any> {
+    return this.http.get<any>(this.APIUrl + name + "/" + id);
   }
 
-  getComicList():Observable<any[]> {
-    return this.http.get<any[]>(this.APIUrl);
+  getLatestComic(name:string):Observable<any> {
+    return this.http.get<any>(this.APIUrl + name);
   }
 
 }

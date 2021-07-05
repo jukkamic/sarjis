@@ -16,20 +16,28 @@ def comicApi(request):
     return JsonResponse("cool!", safe=False)
 
 @csrf_exempt
-def comicApi(request):
+def getComic(request, name:str, id:int):
+    print("getComic() id: ", id)
+    comic = Comic.objects.get(id=id)
+    print("Loaded comic from db by id: ", comic.id)
+    comic_json = populate_comic_json(comic.name, comic.perm_link, comic.img_url, comic.title, comic.alt, comic.prev_link, comic.next_link)
+    comic_json['id'] = comic.id
+    comic_json['prev_id'] = comic.prev_id
+    comic_json['next_id'] = comic.next_id
+    return JsonResponse(comic_json, safe=False)
+
+@csrf_exempt
+def comicApi(request, name:str):
     perm_link_xkcd, img_url, title, alt, prev_link, next_link = get_page("https://", "xkcd.com", "/")
 
     # if prev_link exists but prev_id is null create new comic with perm_link only and update prev_id
     # if next_link does not exist in db
-    comic_json = populate_comic_json("xkcd", perm_link_xkcd, img_url, title, alt, prev_link, next_link)
+    comic_json = populate_comic_json(name, perm_link_xkcd, img_url, title, alt, prev_link, next_link)
 
     try:
         comic = Comic.objects.get(perm_link=perm_link_xkcd)
         print("Updating comic.")
-        # check prev link and id
-        #comic.next_link = comic_json['next_link']
-        # comic.save()
-        comic_json[0]['id'] = comic.id
+        comic_json['id'] = comic.id
 
         prev_id = None
 
@@ -48,7 +56,7 @@ def comicApi(request):
                 comic_serializer = ComicSerializer(data = {'next_link': perm_link_xkcd, 
                                                             'next_id': comic.id, 
                                                             'perm_link': prev_link},
-                                                            many=True)
+                                                            many=False)
                 if comic_serializer.is_valid():
                     prev_comic = comic_serializer.save()
                     prev_id = prev_comic.id
@@ -56,19 +64,19 @@ def comicApi(request):
                 else:
                     print("Errors in serializer when creating prev comic: ", comic_serializer.errors)
             comic.prev_id = prev_id
-            comic_json[0]['prev_id'] = prev_id
+            comic_json['prev_id'] = prev_id
             print("Setting previous comic id to: ", prev_id)
             comic.save()
         print("Updated comic id: ", comic.id)
     except Comic.DoesNotExist:
         print("Comic did not exist with perm_link: ", perm_link_xkcd)
-        comic_json[0]['prev_link'] = prev_link
+        comic_json['prev_link'] = prev_link
         prev_comic = Comic.objects.get(perm_link=prev_link)
-        comic_json[0]['prev_id'] = prev_comic.id
-        comic_serializer = ComicSerializer(data = comic_json, many=True)
+        comic_json['prev_id'] = prev_comic.id
+        comic_serializer = ComicSerializer(data = comic_json, many=False)
         if comic_serializer.is_valid():
             comic = comic_serializer.save()
-        comic_json[0]['id'] = comic.id
+        comic_json['id'] = comic.id
         print("Added comic to database with id:", comic.id)        
 #    print("comic_json\n", comic_json)
     return JsonResponse(comic_json, safe=False)
@@ -103,7 +111,7 @@ def get_page(protocol, domain, url):
     return perm_link_xkcd,img_url,title,alt,prev_link,next_link
 
 def populate_comic_json(name, perm_link, img_url, title, alt, prev_link, next_link):
-    comic_json = [{
+    comic_json = {
             'id': '',
             'name': name,
             'title': title,
@@ -115,6 +123,6 @@ def populate_comic_json(name, perm_link, img_url, title, alt, prev_link, next_li
             'perm_link': perm_link,
             'next_link': next_link,
             'prev_link': prev_link,
-            'img_url': img_url}]
+            'img_url': img_url}
         
     return comic_json

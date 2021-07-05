@@ -17,8 +17,8 @@ export class ComicComponent implements OnInit {
 //    this.comic = this.service.getComic(1).subscribe(data=>{
 //      this.comic = data;
 //    });
-    this.service.getComicList().subscribe(data=>{
-      this.comicList = data;
+    this.service.getComicList("xkcd").subscribe(data=>{
+      this.comic = data;
     })
   }
 

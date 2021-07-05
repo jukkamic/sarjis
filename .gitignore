@@ -2,6 +2,9 @@
 sarjis.db
 db.sqlite3
 
+# Visual studio
+.vscode/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

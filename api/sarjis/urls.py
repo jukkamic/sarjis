@@ -7,6 +7,9 @@ urlpatterns = {
 #    url(r'^sarjis/([0-9]+)$', views.comicApi),
 
 #    path('', views.index, name='index'),
-    path('<int:comic_id>/', views.comicApi),
-    path('', views.comicApi)
+#    path('<int:comic_id>/', views.comicApi),
+#    path('', views.comicApi),
+
+#    path('<str:name>/<int:comic_id>/', views.comicApi),
+    path('<str:name>/', views.comicApi)
 }

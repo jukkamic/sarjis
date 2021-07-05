@@ -43,20 +43,7 @@ def comicApi(request, name):
             next_link = "https://xkcd.com" + next
 
         conn.close()
-
-        comic_json = {
-            'id': '',
-            'name': 'xkcd',
-            'title': title,
-            'alt': alt,
-            'number': 0,
-            'date_publish': '1900-01-01',
-            'date_crawl': '1900-01-01',
-            'img_file': '',
-            'perm_link': perm_link_xkcd,
-            'next_link': next_link,
-            'prev_link': prev_link,
-            'img_url': img_url}
+        comic_json = populate_comic_json("xkcd", perm_link_xkcd, img_url, title, alt, prev_link, next_link)
 
         try:
             comic = Comic.objects.get(perm_link=perm_link_xkcd)
@@ -73,3 +60,20 @@ def comicApi(request, name):
             comic_json['id'] = comic.id
             print("Added comic to database with id:", comic.id)        
         return JsonResponse(comic_json, safe=False)
+
+def populate_comic_json(name, perm_link, img_url, title, alt, prev_link, next_link):
+    comic_json = {
+            'id': '',
+            'name': name,
+            'title': title,
+            'alt': alt,
+            'number': 0,
+            'date_publish': '1900-01-01',
+            'date_crawl': '1900-01-01',
+            'img_file': '',
+            'perm_link': perm_link,
+            'next_link': next_link,
+            'prev_link': prev_link,
+            'img_url': img_url}
+        
+    return comic_json

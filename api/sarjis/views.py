@@ -2,6 +2,7 @@ import io
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.core import serializers
+from rest_framework.fields import empty
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 from .models import Comic
@@ -26,12 +27,44 @@ def comicApi(request, name):
         try:
             comic = Comic.objects.get(perm_link=perm_link_xkcd)
             print("Updating comic.")
-            comic.next_link = comic_json['next_link']
-            comic.save()
+            # check prev link and id
+            #comic.next_link = comic_json['next_link']
+            # comic.save()
             comic_json['id'] = comic.id
+
+            prev_id = None
+
+            if prev_link:
+                # Provided a previous comic exists fetch it as Comic from db
+                try:
+                    prev_comic = Comic.objects.get(perm_link=prev_link)
+                    prev_id = prev_comic.id
+                    if not prev_comic.next_link or not prev_comic.next_id:
+                        prev_comic.next_link = perm_link_xkcd
+                        prev_comic.next_id = comic.id
+                        prev_comic.save()
+                        print("Updated previous comic next links")
+                except Comic.DoesNotExist:
+                    # Previous comic not in db. Create it with bare minimum data.
+                    comic_serializer = ComicSerializer(data = {'next_link': perm_link_xkcd, 
+                                                                'next_id': comic.id, 
+                                                                'perm_link': prev_link})
+                    if comic_serializer.is_valid():
+                        prev_comic = comic_serializer.save()
+                        prev_id = prev_comic.id
+                        print("Created previous comic in db with id: ", prev_comic.id)
+                    else:
+                        print("Errors in serializer when creating prev comic: ", comic_serializer.errors)
+                comic.prev_id = prev_id
+                comic_json['prev_id'] = prev_id
+                print("Setting previous comic id to: ", prev_id)
+                comic.save()
             print("Updated comic id: ", comic.id)
         except Comic.DoesNotExist:
             print("Comic did not exist with perm_link: ", perm_link_xkcd)
+            comic_json['prev_link'] = prev_link
+            prev_comic = Comic.objects.get(perm_link=prev_link)
+            comic_json['prev_id'] = prev_comic.id
             comic_serializer = ComicSerializer(data = comic_json)
             if comic_serializer.is_valid():
                 comic = comic_serializer.save()
@@ -61,7 +94,7 @@ def get_page(protocol, domain, url):
 
     next = soup.find('ul', {"class":"comicNav"}).find('a', {"rel":"next"})['href']
     if next == "#":
-        next_link = ""
+        next_link = None
     else:
         next_link = protocol + domain + next
 

@@ -13,5 +13,5 @@ urlpatterns = {
 #    path('<str:name>/<int:comic_id>/', views.comicApi),
 #    path('', views.comicApi),
     path('<str:name>/<int:id>/', views.getComic),
-    path('<str:name>/', views.comicApi),
+    path('<str:name>/', views.getLatest),
 }

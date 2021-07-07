@@ -10,21 +10,20 @@ export class ComicComponent implements OnInit {
 
   constructor(private service:ComicService) { }
 
-  comic:any;
   comicList:any=[];
 
   ngOnInit(): void {
 //    this.comic = this.service.getComic(1).subscribe(data=>{
 //      this.comic = data;
 //    });
-    this.service.getLatestComic("xkcd").subscribe(data=>{
-      this.comic = data;
+    this.service.getAllLatestComics().subscribe(data=>{
+      this.comicList = data;
     });
   }
 
-  getComic(name:string, id:any) {
+  getComic(name:string, id:any, index:any) {
     this.service.getComic(name, id).subscribe(data=>{
-      this.comic = data;
+      this.comicList[index] = data;
     });
   }
 

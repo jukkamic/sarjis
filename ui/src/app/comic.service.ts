@@ -19,5 +19,9 @@ export class ComicService {
     return this.http.get<any>(this.APIUrl + name);
   }
 
+  getAllLatestComics():Observable<any[]> {
+    return this.http.get<any[]>(this.APIUrl)
+  }
+
 }
 

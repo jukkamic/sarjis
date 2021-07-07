@@ -1,4 +1,4 @@
-<div class="row container justify-content-center">
+<div *ngFor="let comic of comicList; index as i" class="row container justify-content-center">
     <h2>{{comic.name}}</h2>
     <b>{{comic.title}}</b>
 <!--    <p>
@@ -11,10 +11,10 @@
 -->
     <div><img src="{{comic.img_url}}" title="{{comic.alt}}" /></div>
     <p>
-        <button *ngIf="comic.prev_id" type="button" (click)="getComic(comic.name, comic.prev_id)"
+        <button *ngIf="comic.prev_id" type="button" (click)="getComic(comic.name, comic.prev_id, i)"
         class="btn btn-primary btn-sm">Edellinen</button>
         &nbsp;
-        <button *ngIf="comic.next_id" type="button" (click)="getComic(comic.name, comic.next_id)"
+        <button *ngIf="comic.next_id" type="button" (click)="getComic(comic.name, comic.next_id, i)"
         class="btn btn-primary btn-sm">Seuraava</button>
     </p>
     <p>{{comic.perm_link}}</p>

@@ -11,6 +11,7 @@ import urllib.request
 import os
 from django.conf import settings
 from bs4 import BeautifulSoup
+import json
 
 @csrf_exempt
 def getComic(request, name:str, id:int):
@@ -35,6 +36,13 @@ def getLatest(request, name:str):
         else:
             print("Invalid serializer for latest comic: ", comic_serializer.errors)
 
+@csrf_exempt
+def getAllLatest(request):
+    xkcd = getLatest(request, "xkcd")
+    smbc = getLatest(request, "smbc")
+
+    return JsonResponse([json.loads(xkcd.content), json.loads(smbc.content)], safe=False)
+
 def fetch_prev_update_links(name, comic):
     # fetch prev, add current id as next, update prev_id for current
     prev_comic_json = parse(name, comic.prev_link)
@@ -48,11 +56,13 @@ def fetch_prev_update_links(name, comic):
         comic.save()
         return JsonResponse(ComicSerializer(comic, many=False).data, safe=False)
     else:
-        print("Invalid serializer for previous comic: " + prev_comic_serializer.errors)
+        print("Invalid serializer for previous comic: ", prev_comic_serializer.errors)
 
 def parse(name, url):
     if name=="xkcd":
         return parseXkcd(url)
+    if name=="smbc":
+        return parseSmbc(url)
 
 def addComicMeta(name, comic_json):
     comic_json['date_publish'] = '1900-01-01'
@@ -60,29 +70,78 @@ def addComicMeta(name, comic_json):
     comic_json['number'] = 0
     comic_json['name'] = name
 
+def parseSmbc(url):
+    if url != "/":
+        url = "/comic/" + url.split('/')[-1]
+    conn = http.client.HTTPSConnection("www.smbc-comics.com")
+    conn.request("GET", url)
+
+    response = conn.getresponse()
+    page_html:str = response.read().decode()
+    conn.close()
+
+    soup = BeautifulSoup(page_html, features="lxml")
+
+    full_title = soup.find('title').contents[0]
+    title = full_title[len("Saturday Morning Breakfast Cereal -"):]
+
+    alt = soup.find('div', {"id":"cc-comicbody"}).find('img')['title']
+
+    perm_link = soup.find('input', {"id":"permalinktext"})['value']
+    img_url = soup.find('div', {"id":"cc-comicbody"}).find('img')['src']
+
+    path = os.path.join(settings.BASE_DIR, 'images')
+    img_file = img_url.split('/')[-1]
+    urllib.request.urlretrieve(img_url, os.path.join(path, img_file))
+
+    prev_element = soup.find('a', {"class":"cc-prev"})
+    next_element = soup.find('a', {"class":"cc-next"})
+
+    if prev_element is not None:  
+        prev_link = prev_element['href']
+    else:
+        prev_link = None
+
+    if next_element is not None:  
+        next_link = next_element['href']
+    else:
+        next_link = None
+    
+    return {'perm_link': perm_link,
+            'img_url': img_url,
+            'img_file': img_file,
+            'title': title,
+            'alt': alt,
+            'prev_link': prev_link,
+            'next_link': next_link}
+
 def parseXkcd(url):
     conn = http.client.HTTPSConnection("xkcd.com")
     conn.request("GET", url)
     response = conn.getresponse()
         
+    img_path = os.path.join(settings.BASE_DIR, 'images')
+
     page_html:str = response.read().decode()
         
-    start = page_html.find("Permanent link to this comic:") + 30
-    end = page_html.find("<br", start)
-    perm_link_xkcd = page_html[start:end]
-
-    start = page_html.find("Image URL (for hotlinking/embedding):") + 38
-    end = page_html.find(".png", start)
-    img_url = page_html[start:end + 4]
-
-    path = os.path.join(settings.BASE_DIR, 'images')
-    img_file = img_url.split('/')[-1]
-    urllib.request.urlretrieve(img_url, os.path.join(path, img_file))   
-
+    start_perm_link = page_html.find("Permanent link to this comic:") + 30
+    end_perm_link = page_html.find("<br", start_perm_link)
+    
+    start_img = page_html.find("Image URL (for hotlinking/embedding):") + 38
+    end_img = page_html.find(".png", start_img)
     soup = BeautifulSoup(page_html, features="lxml")
+
+    perm_link = page_html[start_perm_link:end_perm_link]
+    img_url = page_html[start_img:end_img + 4]
+    img_file = img_url.split('/')[-1]
+    urllib.request.urlretrieve(img_url, os.path.join(img_path, img_file))   
     title = soup.find('div', {"id":"ctitle"}).contents[0]
     alt = soup.find('div', {"id":"comic"}).find('img')['title']
-    prev_link = soup.find('ul', {"class":"comicNav"}).find('a', {"rel":"prev"})['href']
+    prev_element = soup.find('ul', {"class":"comicNav"}).find('a', {"rel":"prev"})
+    if prev_element is not None:
+        prev_link = prev_element['href']
+    else:
+        prev_link = None
 
     next = soup.find('ul', {"class":"comicNav"}).find('a', {"rel":"next"})['href']
     if next == "#":
@@ -91,7 +150,7 @@ def parseXkcd(url):
         next_link = next
 
     conn.close()
-    return {'perm_link': perm_link_xkcd,
+    return {'perm_link': perm_link,
             'img_url': img_url,
             'img_file': img_file,
             'title': title,

@@ -18,23 +18,11 @@ def getComic(request, name:str, id:int):
     if comic.prev_id is not None:
         return JsonResponse(ComicSerializer(comic, many=False).data, safe=False)
     else:
-        # fetch prev, add current id as next, update prev_id for current
-        prev_comic_json = parseXkcd(comic.prev_link)
-        addComicMeta(name, prev_comic_json)
-        prev_comic_json['next_id'] = comic.id
-
-        prev_comic_serializer = ComicSerializer(data = prev_comic_json, many=False)
-        if prev_comic_serializer.is_valid():
-            prev_comic = prev_comic_serializer.save()
-            comic.prev_id = prev_comic.id
-            comic.save()
-            return JsonResponse(ComicSerializer(comic, many=False).data, safe=False)
-        else:
-            print("Invalid serializer for previous comic: " + prev_comic_serializer.errors)
+        return fetch_prev_update_links(name, comic)
 
 @csrf_exempt
 def getLatest(request, name:str):
-    comic_json = parseXkcd("/")
+    comic_json = parse(name, "/")
     addComicMeta(name, comic_json)
     try:
         comic_from_db = Comic.objects.get(perm_link = comic_json['perm_link'])
@@ -42,23 +30,29 @@ def getLatest(request, name:str):
     except Comic.DoesNotExist:
         comic_serializer = ComicSerializer(data = comic_json, many=False)
         if comic_serializer.is_valid():
-            comic = comic_serializer.save()
-            
-            # fetch prev, add current id as next, update prev_id for current
-            prev_comic_json = parseXkcd(comic.prev_link)
-            addComicMeta(name, prev_comic_json)
-            prev_comic_json['next_id'] = comic.id
-
-            prev_comic_serializer = ComicSerializer(data = prev_comic_json, many=False)
-            if prev_comic_serializer.is_valid():
-                prev_comic = prev_comic_serializer.save()
-                comic.prev_id = prev_comic.id
-                comic.save()
-                return JsonResponse(ComicSerializer(comic, many=False).data, safe=False)
-            else:
-                print("Invalid serializer for previous comic: " + prev_comic_serializer.errors)
+            comic = comic_serializer.save()            
+            return fetch_prev_update_links(name, comic)
         else:
             print("Invalid serializer for latest comic: ", comic_serializer.errors)
+
+def fetch_prev_update_links(name, comic):
+    # fetch prev, add current id as next, update prev_id for current
+    prev_comic_json = parse(name, comic.prev_link)
+    addComicMeta(name, prev_comic_json)
+    prev_comic_json['next_id'] = comic.id
+
+    prev_comic_serializer = ComicSerializer(data = prev_comic_json, many=False)
+    if prev_comic_serializer.is_valid():
+        prev_comic = prev_comic_serializer.save()
+        comic.prev_id = prev_comic.id
+        comic.save()
+        return JsonResponse(ComicSerializer(comic, many=False).data, safe=False)
+    else:
+        print("Invalid serializer for previous comic: " + prev_comic_serializer.errors)
+
+def parse(name, url):
+    if name=="xkcd":
+        return parseXkcd(url)
 
 def addComicMeta(name, comic_json):
     comic_json['date_publish'] = '1900-01-01'

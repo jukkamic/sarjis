@@ -1,18 +1,21 @@
-<div class="row my-1 py-2">
+<div class="row container justify-content-center">
     <h2>{{comic.name}}</h2>
-    <!--
-    <div class="col">
-        <h5 class="justify-content-center">{{comic.title}}</h5>
-        <img src="{{comic.img_url}}" title="{{comic.alt}}" />
-    </div>
-    -->
     <b>{{comic.title}}</b>
-    <img src="{{comic.img_url}}" title="{{comic.alt}}" />
-    <p *ngIf="comic.prev_id">
-        <button type="button" (click)="getComic(comic.name, comic.prev_id)">Edellinen</button>
+<!--    <p>
+        <button *ngIf="comic.prev_id" type="button" (click)="getComic(comic.name, comic.prev_id)"
+        class="btn btn-primary btn-sm">Edellinen</button>
+        &nbsp;
+        <button *ngIf="comic.next_id" type="button" (click)="getComic(comic.name, comic.next_id)"
+        class="btn btn-primary btn-sm">Seuraava</button>
     </p>
-    <p *ngIf="comic.next_id">
-        <button type="button" (click)="getComic(comic.name, comic.next_id)">Seuraava</button>
+-->
+    <div><img src="{{comic.img_url}}" title="{{comic.alt}}" /></div>
+    <p>
+        <button *ngIf="comic.prev_id" type="button" (click)="getComic(comic.name, comic.prev_id)"
+        class="btn btn-primary btn-sm">Edellinen</button>
+        &nbsp;
+        <button *ngIf="comic.next_id" type="button" (click)="getComic(comic.name, comic.next_id)"
+        class="btn btn-primary btn-sm">Seuraava</button>
     </p>
     <p>{{comic.perm_link}}</p>
 </div>

@@ -39,10 +39,15 @@ def getLatest(request, name:str):
 
 @csrf_exempt
 def getAllLatest(request):
+    fingerpori = getLatest(request, "fingerpori")
     xkcd = getLatest(request, "xkcd")
     smbc = getLatest(request, "smbc")
 
-    return JsonResponse([json.loads(xkcd.content), json.loads(smbc.content)], safe=False)
+    return JsonResponse([
+                         json.loads(fingerpori.content),
+                         json.loads(xkcd.content),
+                         json.loads(smbc.content)
+                         ], safe=False)
 
 def fetch_prev_update_links(name, comic):
     # fetch prev, add current id as next, update prev_id for current
@@ -60,6 +65,8 @@ def fetch_prev_update_links(name, comic):
         print("Invalid serializer for previous comic: ", prev_comic_serializer.errors)
 
 def parse(name, url):
+    if name=="fingerpori":
+        return parseFingerpori(url)
     if name=="xkcd":
         return parseXkcd(url)
     if name=="smbc":
@@ -70,6 +77,59 @@ def addComicMeta(name, comic_json):
     comic_json['date_crawl'] = '1900-01-01'
     comic_json['number'] = 0
     comic_json['name'] = name
+
+def parseFingerpori(url):
+    if url == "/":
+        url = "/sarjakuvat/"
+    print("url: ", url)
+    conn = http.client.HTTPSConnection("www.hs.fi")
+    conn.request("GET", url)
+    response = conn.getresponse()
+    page_html:str = response.read().decode()
+    conn.close()
+
+    soup = BeautifulSoup(page_html, features="lxml")
+
+    if url == "/sarjakuvat/":
+        print("if url == /sarjakuvat/")
+        cartoons = soup.find("div", attrs={"id": "page-main-content"})
+        fp_div = cartoons.find('span', text="Fingerpori", attrs = {"class": "title"}).find_parent("div")
+        perm_link = fp_div.find(('a'))['href']
+        return parseFingerpori(perm_link)
+
+    perm_link = url
+
+    next_link = soup.find("a", attrs={"class": ["next"]})["href"]
+    if next_link == "#":
+        next_link = None
+
+    prev_link = soup.find("a", attrs={"class": ["prev"]})["href"]
+    if prev_link == "#":
+        prev_link = None
+
+    print("handling permalink: ", url)
+    print("prev_link", prev_link)
+    print("next_link", next_link)
+
+    figure_tag = soup.find("figure", attrs={"class": "cartoon image scroller"})
+    img_url= "https:" + figure_tag.find("img")["data-srcset"]
+    img_url=img_url.split(" ")[0]
+    img_file = img_url.split('/')[-1]
+    img_path = settings.IMAGE_ROOT
+    urllib.request.urlretrieve(img_url, os.path.join(img_path, img_file))   
+
+    date_publish = figure_tag.find("meta", attrs={"itemprop": "datePublished"})["content"]
+    print("date_publish: ", date_publish)
+
+    return {'perm_link': perm_link,
+            'img_url': img_url,
+            'img_file': img_file,
+            'title': "",
+            'alt': "",
+            'prev_link': prev_link,
+            'next_link': next_link,
+            'date_publish': date_publish,
+            }
 
 def parseSmbc(url):
     if url != "/":

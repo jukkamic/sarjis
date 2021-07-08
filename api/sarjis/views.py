@@ -12,6 +12,7 @@ import os
 from django.conf import settings
 from bs4 import BeautifulSoup
 import json
+from django.core.files.storage import default_storage
 
 @csrf_exempt
 def getComic(request, name:str, id:int):
@@ -90,7 +91,7 @@ def parseSmbc(url):
     perm_link = soup.find('input', {"id":"permalinktext"})['value']
     img_url = soup.find('div', {"id":"cc-comicbody"}).find('img')['src']
 
-    path = os.path.join(settings.BASE_DIR, 'images')
+    path = settings.IMAGE_ROOT
     img_file = img_url.split('/')[-1]
     urllib.request.urlretrieve(img_url, os.path.join(path, img_file))
 
@@ -120,7 +121,7 @@ def parseXkcd(url):
     conn.request("GET", url)
     response = conn.getresponse()
         
-    img_path = os.path.join(settings.BASE_DIR, 'images')
+    img_path = settings.IMAGE_ROOT
 
     page_html:str = response.read().decode()
         

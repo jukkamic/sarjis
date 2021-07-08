@@ -8,9 +8,12 @@ import { ComicService } from 'src/app/comic.service';
 })
 export class ComicComponent implements OnInit {
 
-  constructor(private service:ComicService) { }
+  constructor(private service:ComicService) { 
+    this.ImageFilePath=this.service.ImageUrl;
+  }
 
   comicList:any=[];
+  ImageFilePath:string;
 
   ngOnInit(): void {
 //    this.comic = this.service.getComic(1).subscribe(data=>{
@@ -19,6 +22,7 @@ export class ComicComponent implements OnInit {
     this.service.getAllLatestComics().subscribe(data=>{
       this.comicList = data;
     });
+
   }
 
   getComic(name:string, id:any, index:any) {

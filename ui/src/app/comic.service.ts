@@ -8,6 +8,7 @@ import { environment } from '../environments/environment';
 })
 export class ComicService {
   readonly APIUrl = "http://localhost:8000/sarjis/";
+  readonly ImageUrl = environment.img_url;
 
   constructor(private http:HttpClient) { }
 

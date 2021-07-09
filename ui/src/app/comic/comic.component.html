@@ -1,15 +1,22 @@
-<div *ngFor="let comic of comicList; index as i" class="row container justify-content-center">
-    <div class="col-10">
-        <h2>{{comic.name}}</h2>
-        <b>{{comic.title}}</b>
-        <div><img src="{{ImageFilePath}}/{{comic.img_file}}" title="{{comic.alt}}" /></div>
-        <p>
+<div *ngFor="let comic of comicList; index as i" class="container justify-content-center border gy-6">
+    <div class="row">
+        <div class="col offset=1 gc-2">
+            <h2>{{comic.name}}</h2>
+            <b>{{comic.title}}</b>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-md-1 d-grid gap-2">
             <button *ngIf="comic.prev_id" type="button" (click)="getComic(comic.name, comic.prev_id, i)"
-            class="btn btn-primary btn-sm">Edellinen</button>
-            &nbsp;
+            class="btn btn-outline-primary btn-sm">&laquo;</button>
+        </div>
+        <div class="img col-md-10">
+            <img src="{{ImageFilePath}}/{{comic.img_file}}" title="{{comic.alt}}" 
+                class="img-fluid"/>
+        </div>
+        <div class="col-md-1 d-grid gap-2">
             <button *ngIf="comic.next_id" type="button" (click)="getComic(comic.name, comic.next_id, i)"
-            class="btn btn-primary btn-sm">Seuraava</button>
-        </p>
-        <p>{{comic.perm_link}}</p>
+            class="btn btn-outline-primary btn-sm">&raquo;</button>
+        </div>
     </div>
 </div>

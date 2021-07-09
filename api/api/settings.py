@@ -19,6 +19,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 IMAGE_URL = '/images/'
 IMAGE_ROOT = os.path.join(BASE_DIR,"images")
 
+CACHES = {
+   'default': {
+      'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+      'LOCATION': os.path.join(BASE_DIR, "django_cache"),
+   }
+}
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/

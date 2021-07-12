@@ -1,11 +1,11 @@
 from django.db import models
 
 class Comic(models.Model):
-    name = models.CharField(max_length=200)
-    date_crawl = models.DateField('date crawled', blank=True, null=True)
-    date_publish = models.DateField('date published', blank=True, null=True)
-    number = models.IntegerField(null=True)
-    title = models.CharField(max_length=200, null=True, blank=True)
+    name = models.CharField(max_length=100)
+    display_name =  models.CharField(max_length=100)
+    display_source = models.CharField(max_length=100)
+    date_publish = models.DateField(blank=True, null=True)
+    title = models.TextField(null=True, blank=True)
     alt = models.TextField(null=True, blank=True)
     img_url = models.TextField(null=True)
     prev_link = models.TextField(null=True)

@@ -4,4 +4,4 @@ from sarjis.models import Comic
 class ComicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comic
-        fields = ('id', 'name', 'date_crawl', 'date_publish', 'number', 'title', 'alt', 'img_url', 'prev_link', 'next_link', 'next_id', 'prev_id', 'perm_link', 'img_file')
+        fields = ('id', 'name', 'display_name', 'display_source', 'title', 'alt', 'date_publish', 'prev_id', 'next_id', 'prev_link', 'next_link', 'perm_link', 'img_url', 'img_file')

@@ -82,11 +82,7 @@ def parse(name, url):
         return parseSmbc(url)
 
 def addComicMeta(name, comic_json):
-    comic_json['date_publish'] = '1900-01-01'
-    comic_json['date_crawl'] = '1900-01-01'
-    comic_json['number'] = 0
     comic_json['name'] = name
-
 
 def parseHsComic(url, comicTitle:str):
     url, page_html = fetchHtmlFromHS(url)
@@ -125,6 +121,8 @@ def parseHsComic(url, comicTitle:str):
             'prev_link': prev_link,
             'next_link': next_link,
             'date_publish': date_publish,
+            'display_source': 'hs.fi',
+            'display_name': comicTitle
             }
 
 def handleLinksInHS(soup):
@@ -205,7 +203,9 @@ def parseSmbc(url):
             'title': title,
             'alt': alt,
             'prev_link': prev_link,
-            'next_link': next_link}
+            'next_link': next_link,
+            'display_name': 'Saturday Morning Breakfast Cereal',
+            'display_source': 'smbc-comics.com'}
 
 def parseXkcd(url):
     conn = http.client.HTTPSConnection("xkcd.com")
@@ -251,7 +251,9 @@ def parseXkcd(url):
             'title': title,
             'alt': alt,
             'prev_link': prev_link,
-            'next_link': next_link}
+            'next_link': next_link,
+            'display_name': 'xkcd',
+            'display_source': 'xkcd.com'}
 
 def populate_comic_json(name, perm_link, img_url, img_file, title, alt, prev_link, next_link):
     comic_json = {

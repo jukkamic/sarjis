@@ -2,7 +2,8 @@
 style="margin-bottom: 20px; padding-bottom: 20px; background-color: rgb(245, 245, 245);">
     <div class="row">
         <div class="col">
-            <h2 class="offset-1">{{comic.name}}</h2>
+            <h2 class="offset-1">{{comic.display_name}}</h2>
+            <i *ngIf="comic.date_publish" class="offset-1">{{comic.date_publish | date: 'dd.MM.yyyy'}}</i>
             <b *ngIf="comic.title" class="offset-1">{{comic.title}}</b>
         </div>
     </div>
@@ -22,4 +23,5 @@ style="margin-bottom: 20px; padding-bottom: 20px; background-color: rgb(245, 245
             class="btn btn-outline-primary btn-sm">&raquo;</button>
         </div>
     </div>
+    <div class="row offset-1">{{comic.display_source}}</div>
 </div>

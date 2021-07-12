@@ -13,7 +13,8 @@ export class AppComponent implements OnInit {
   }
 
   all_comics:any=[];
-  fp:any;
+  focusOnOne:boolean = false;
+/*   fp:any;
   vw:any;
   xkcd:any;
   smbc:any;
@@ -21,11 +22,27 @@ export class AppComponent implements OnInit {
   velho:any;
   fokit:any;
   pbf:any;
+ */
+
+  focusChangedHandler(comic:any) {
+    this.focusOnOne = !this.focusOnOne;
+
+    if (this.focusOnOne) {
+      this.service.getComic(comic.name, comic.id).subscribe(data=>{
+        this.all_comics = [data];
+      });
+    } else {
+      this.service.getAllLatestComics().subscribe(data=>{
+        this.all_comics = data;
+      });  
+    }
+  }    
 
   ngOnInit(): void {
     this.service.getAllLatestComics().subscribe(data=>{
       this.all_comics = data;
     });
+
 /*     this.service.getLatestComic("fingerpori").subscribe(data=>{
       this.fp = data;
     });

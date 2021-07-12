@@ -16,6 +16,10 @@ export class ComicService {
     return this.http.get<any>(this.APIUrl + name + "/" + id);
   }
 
+  getComicSync(name:string, id:any) {
+    return this.http.get<any>(this.APIUrl + name + "/" + id);
+  }
+
   getLatestComic(name:string):Observable<any> {
     return this.http.get<any>(this.APIUrl + name);
   }

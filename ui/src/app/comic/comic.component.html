@@ -16,7 +16,8 @@ style="margin-bottom: 20px; padding-bottom: 20px; background-color: rgb(245, 245
         </div>
         <div class="img col-md-10">
             <img *ngIf="comic.img_file" src="{{ImageFilePath}}/{{comic.img_file}}" title="{{comic.alt}}" 
-                class="img-fluid"/>
+                class="img-fluid"
+                (click)="changeFocus()"/>
         </div>
         <div class="col-md-1 d-grid gap-1">
             <button *ngIf="comic.next_id" type="button" (click)="getComic(comic.name, comic.next_id)"

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ComicService } from 'src/app/comic.service';
 
 @Component({
@@ -13,8 +13,13 @@ export class ComicComponent {
   }
 
   @Input() comic:any;
+  @Output() focusChanged: EventEmitter<any> = new EventEmitter();
 
   ImageFilePath:string;
+
+  changeFocus() {
+    this.focusChanged.emit(this.comic);
+  }
 
   getComic(name:string, id:any) {
     this.service.getComic(name, id).subscribe(data=>{

@@ -48,6 +48,7 @@ def getAllLatest(request):
     dilbert = getLatest(request, "dilbert"),
     velho = getLatest(request, "velho"),
     fokit = getLatest(request, "fokit")
+    pbf = getLatest(request, "pbf")
 
     return JsonResponse([
                          json.loads(fingerpori.content),
@@ -56,7 +57,8 @@ def getAllLatest(request):
                          json.loads(smbc.content),
                          json.loads(dilbert.content),
                          json.loads(velho.content),
-                         json.loads(fokit.content)
+                         json.loads(fokit.content),
+                         json.loads(pbf.content)
                          ], safe=False)
 
 def fetch_prev_and_update_links(name, comic):
@@ -92,6 +94,8 @@ def parse(name, url):
         return parseSmbc(url)
     if name=="dilbert":
         return parseDilbert(url)
+    if name=="pbf":
+        return parsePbf(url)
 
 def addComicMeta(name, comic_json):
     comic_json['name'] = name
@@ -146,6 +150,56 @@ def parseDilbert(url):
             'display_name': "Dilbert"
             }
     
+def parsePbf(url):
+    print("parsePbf(): ", url)
+    conn = http.client.HTTPSConnection("pbfcomics.com")
+    if url != "/":
+        url = "/comics/" + url.split("/")[-2] + "/"
+    conn.request("GET", url)
+    response = conn.getresponse()
+    page_html:str = response.read().decode()
+    conn.close()
+
+    soup = BeautifulSoup(page_html, features="lxml")
+
+    nav_tag = soup.find("div", attrs={"id": "pbf-bottom-pagination"})
+
+    if url == "/":
+        print("get latest comic and parse that")
+        perm_link = nav_tag.find("a", attrs={"rel": "latest"})["href"]
+        return parsePbf(perm_link)
+
+    title = soup.find("meta", {"property": "og:title"})["content"]
+
+    img_url = soup.find("meta", attrs={"property": "og:image"})["content"]
+
+    perm_link = url
+    next_link_tag = nav_tag.find("a", attrs={"rel": "next"})
+    prev_link_tag = nav_tag.find("a", attrs={"rel": "prev"})
+
+    next_link = None
+    prev_link = None
+    if next_link_tag:
+        next_link = next_link_tag["href"]
+    if prev_link_tag:
+        prev_link = prev_link_tag["href"]
+
+    img_file = img_url.split('/')[-1]
+    img_path = settings.IMAGE_ROOT
+    img_full_path = os.path.join(img_path, img_file)
+    if not os.path.isfile(img_full_path):
+        urllib.request.urlretrieve(img_url, img_full_path)   
+
+    return {'perm_link': perm_link,
+            'img_url': img_url,
+            'img_file': img_file,
+            'title': title,
+            'alt': "",
+            'prev_link': prev_link,
+            'next_link': next_link,
+            'display_source': 'pbfcomics.com',
+            'display_name': "The Perry Bible Fellowship"
+            }
 
 
 def parseHsComic(url, comicTitle:str):

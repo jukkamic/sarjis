@@ -15,7 +15,7 @@ style="margin-bottom: 20px; padding-bottom: 20px; background-color: rgb(245, 245
             </ng-template>
         </div>
         <div class="img col-md-10">
-            <img src="{{ImageFilePath}}/{{comic.img_file}}" title="{{comic.alt}}" 
+            <img *ngIf="comic.img_file" src="{{ImageFilePath}}/{{comic.img_file}}" title="{{comic.alt}}" 
                 class="img-fluid"/>
         </div>
         <div class="col-md-1 d-grid gap-1">

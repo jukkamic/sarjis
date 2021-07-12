@@ -12,6 +12,7 @@ export class AppComponent implements OnInit {
   constructor(private service:ComicService) {     
   }
 
+  all_comics:any=[];
   fp:any;
   vw:any;
   xkcd:any;
@@ -22,7 +23,10 @@ export class AppComponent implements OnInit {
   pbf:any;
 
   ngOnInit(): void {
-    this.service.getLatestComic("fingerpori").subscribe(data=>{
+    this.service.getAllLatestComics().subscribe(data=>{
+      this.all_comics = data;
+    });
+/*     this.service.getLatestComic("fingerpori").subscribe(data=>{
       this.fp = data;
     });
     this.service.getLatestComic("vw").subscribe(data=>{
@@ -46,7 +50,7 @@ export class AppComponent implements OnInit {
     this.service.getLatestComic("pbf").subscribe(data=>{
       this.pbf = data;
     });
-  }
+ */  }
 
 }
 

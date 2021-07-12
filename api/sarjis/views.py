@@ -45,8 +45,8 @@ def getAllLatest(request):
     xkcd = getLatest(request, "xkcd")
     smbc = getLatest(request, "smbc")
     vw = getLatest(request, "vw")
-    dilbert = getLatest(request, "dilbert"),
-    velho = getLatest(request, "velho"),
+    dilbert = getLatest(request, "dilbert")
+    velho = getLatest(request, "velho")
     fokit = getLatest(request, "fokit")
     pbf = getLatest(request, "pbf")
 
@@ -291,6 +291,8 @@ def parseSmbc(url):
     alt = soup.find('div', {"id":"cc-comicbody"}).find('img')['title']
 
     perm_link = soup.find('input', {"id":"permalinktext"})['value']
+    perm_link = "https://" + perm_link.split("//")[-1]
+    print("smbc permalink: ", perm_link)
     img_url = soup.find('div', {"id":"cc-comicbody"}).find('img')['src']
 
     img_path = settings.IMAGE_ROOT

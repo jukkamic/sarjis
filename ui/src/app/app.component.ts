@@ -17,6 +17,8 @@ export class AppComponent implements OnInit {
   xkcd:any;
   smbc:any;
   dilbert:any;
+  velho:any;
+  fokit:any;
 
   ngOnInit(): void {
     this.service.getLatestComic("fingerpori").subscribe(data=>{
@@ -33,6 +35,12 @@ export class AppComponent implements OnInit {
     });
     this.service.getLatestComic("dilbert").subscribe(data=>{
       this.dilbert = data;
+    });
+    this.service.getLatestComic("velho").subscribe(data=>{
+      this.velho = data;
+    });
+    this.service.getLatestComic("fokit").subscribe(data=>{
+      this.fokit = data;
     });
   }
 

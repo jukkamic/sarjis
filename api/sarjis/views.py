@@ -45,14 +45,18 @@ def getAllLatest(request):
     xkcd = getLatest(request, "xkcd")
     smbc = getLatest(request, "smbc")
     vw = getLatest(request, "vw")
-    dilbert = getLatest(request, "dilbert")
+    dilbert = getLatest(request, "dilbert"),
+    velho = getLatest(request, "velho"),
+    fokit = getLatest(request, "fokit")
 
     return JsonResponse([
                          json.loads(fingerpori.content),
                          json.loads(vw.content),
                          json.loads(xkcd.content),
                          json.loads(smbc.content),
-                         json.loads(dilbert.content)
+                         json.loads(dilbert.content),
+                         json.loads(velho.content),
+                         json.loads(fokit.content)
                          ], safe=False)
 
 def fetch_prev_and_update_links(name, comic):
@@ -78,6 +82,10 @@ def parse(name, url):
         return parseHsComic(url, "Fingerpori")
     if name=="vw":
         return parseHsComic(url, "Viivi ja Wagner")
+    if name=="velho":
+        return parseHsComic(url, "Velho")
+    if name=="fokit":
+        return parseHsComic(url, "Fok_It")
     if name=="xkcd":
         return parseXkcd(url)
     if name=="smbc":
@@ -108,7 +116,7 @@ def parseDilbert(url):
     perm_link = url
     next_link = None
     prev_link = None
-    
+
     next_link_tag = soup.find("a", attrs={"class": "js-load-comic-newer"})
     prev_link_tag = soup.find("a", attrs={"class": "js-load-comic-older"})
     if next_link_tag:
@@ -158,6 +166,8 @@ def parseHsComic(url, comicTitle:str):
     print("next_link", next_link)
 
     figure_tag = soup.find("figure", attrs={"class": "cartoon image scroller"})
+    if not figure_tag:
+        figure_tag = soup.find("figure", attrs={"class": "cartoon image "})        
     img_url= "https:" + figure_tag.find("img")["data-srcset"]
     img_url=img_url.split(" ")[0]
     img_file = img_url.split('/')[-1]

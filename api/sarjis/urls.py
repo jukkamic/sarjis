@@ -12,7 +12,7 @@ urlpatterns = {
 #    path('', views.comicApi),
 
 #    path('<str:name>/<int:comic_id>/', views.comicApi),
-    path('<str:name>/<int:id>/', cache_page(60*30)(views.getComic)),
-    path('<str:name>/', cache_page(60*30)(views.getLatest)),
-    path('', cache_page(60*30)(views.getAllLatest)),
+    path('<str:name>/<int:id>/', cache_page(60*5)(views.getComic)),
+    path('<str:name>/', cache_page(60*5)(views.getLatest)),
+    path('', views.getAllLatest),
 }

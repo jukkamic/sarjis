@@ -45,12 +45,14 @@ def getAllLatest(request):
     xkcd = getLatest(request, "xkcd")
     smbc = getLatest(request, "smbc")
     vw = getLatest(request, "vw")
+    dilbert = getLatest(request, "dilbert")
 
     return JsonResponse([
                          json.loads(fingerpori.content),
                          json.loads(vw.content),
                          json.loads(xkcd.content),
-                         json.loads(smbc.content)
+                         json.loads(smbc.content),
+                         json.loads(dilbert.content)
                          ], safe=False)
 
 def fetch_prev_and_update_links(name, comic):
@@ -80,9 +82,63 @@ def parse(name, url):
         return parseXkcd(url)
     if name=="smbc":
         return parseSmbc(url)
+    if name=="dilbert":
+        return parseDilbert(url)
 
 def addComicMeta(name, comic_json):
     comic_json['name'] = name
+
+def parseDilbert(url):
+    print("parseDilbert(): ", url)
+    conn = http.client.HTTPSConnection("dilbert.com")
+    conn.request("GET", url)
+    response = conn.getresponse()
+    page_html:str = response.read().decode()
+    conn.close()
+
+    soup = BeautifulSoup(page_html, features="lxml")
+
+    meta_tag = soup.find("div", attrs={"class": "meta-info-container"})
+
+    if url == "/":
+        first_link = meta_tag.find('a', attrs={'class': 'img-comic-link'})
+        perm_link = first_link['href']
+        return parseDilbert(perm_link)
+
+    perm_link = url
+    next_link = None
+    prev_link = None
+    
+    next_link_tag = soup.find("a", attrs={"class": "js-load-comic-newer"})
+    prev_link_tag = soup.find("a", attrs={"class": "js-load-comic-older"})
+    if next_link_tag:
+        next_link = next_link_tag["href"]
+    if prev_link_tag:
+        prev_link = prev_link_tag["href"]
+
+    span_tag = meta_tag.find("span", attrs={"class": "comic-rating"})
+    date_publish = span_tag.find("div")["data-date"]
+
+    img_url = meta_tag.find("img", attrs={"class": "img-responsive img-comic"})["src"]
+    img_file = img_url.split('/')[-1]
+    img_path = settings.IMAGE_ROOT
+    img_full_path = os.path.join(img_path, img_file)
+    if not os.path.isfile(img_full_path):
+        urllib.request.urlretrieve(img_url, img_full_path)   
+
+    return {'perm_link': perm_link,
+            'img_url': img_url,
+            'img_file': img_file,
+            'title': "",
+            'alt': "",
+            'prev_link': prev_link,
+            'next_link': next_link,
+            'date_publish': date_publish,
+            'display_source': 'dilbert.com',
+            'display_name': "Dilbert"
+            }
+    
+
 
 def parseHsComic(url, comicTitle:str):
     url, page_html = fetchHtmlFromHS(url)

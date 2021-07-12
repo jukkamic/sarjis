@@ -10,7 +10,7 @@ style="margin-bottom: 20px; padding-bottom: 20px; background-color: rgb(245, 245
     <div class="row justify-content-center">
         <div class="col-md-1 d-grid gap-1">
             <button *ngIf="comic.prev_id; else elseBlock" type="button" (click)="getComic(comic.name, comic.prev_id)"
-            class="btn btn-outline-primary btn-sm">&laquo;</button>
+            class="btn btn-outline-dark btn-sm">&laquo;</button>
             <ng-template #elseBlock>
             </ng-template>
         </div>
@@ -21,7 +21,7 @@ style="margin-bottom: 20px; padding-bottom: 20px; background-color: rgb(245, 245
         </div>
         <div class="col-md-1 d-grid gap-1">
             <button *ngIf="comic.next_id" type="button" (click)="getComic(comic.name, comic.next_id)"
-            class="btn btn-outline-primary btn-sm">&raquo;</button>
+            class="btn btn-outline-dark btn-sm">&raquo;</button>
         </div>
     </div>
     <div class="row offset-1">{{comic.display_source}}</div>

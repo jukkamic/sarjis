@@ -20,7 +20,7 @@ def getComic(request, name:str, id:int):
     if comic.prev_id is not None:
         return JsonResponse(ComicSerializer(comic, many=False).data, safe=False)
     else:
-        return fetch_prev_update_links(name, comic)
+        return fetch_prev_and_update_links(name, comic)
 
 @csrf_exempt
 def getLatest(request, name:str):
@@ -33,10 +33,11 @@ def getLatest(request, name:str):
         comic_serializer = ComicSerializer(data = comic_json, many=False)
         if comic_serializer.is_valid():
             comic = comic_serializer.save()            
-            return fetch_prev_update_links(name, comic)
+            return fetch_prev_and_update_links(name, comic)
         else:
-            print("Invalid serializer for latest comic: ", comic_serializer.errors)
-            return JsonResponse(status=500, message = "Invalid serializer for latest comic: " + comic_serializer.errors)
+            return JsonResponse(status=500, data = {
+                "status": "false",
+                 "message": print("Invalid serializer for latest comic: ", comic_serializer.errors)})
 
 @csrf_exempt
 def getAllLatest(request):
@@ -52,7 +53,7 @@ def getAllLatest(request):
                          json.loads(smbc.content)
                          ], safe=False)
 
-def fetch_prev_update_links(name, comic):
+def fetch_prev_and_update_links(name, comic):
     # fetch prev, add current id as next, update prev_id for current
     prev_comic_json = parse(name, comic.prev_link)
     addComicMeta(name, prev_comic_json)

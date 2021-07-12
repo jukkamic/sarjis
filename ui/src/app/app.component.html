@@ -1,11 +1,20 @@
 <div class="container-fluid justify-content-center" style="background-color: rgb(235, 235, 235);">
     <div class="row">
         <div class="col text-center">
-            <h2>Kotkis~Sarjis</h2>
+            <h2>Sarjis~Kotkis</h2>
         </div>
     </div>
     <div class="row">
-        <app-comic></app-comic>
+        <app-comic [comic]="fp"></app-comic>
+    </div>
+    <div class="row">
+        <app-comic [comic]="vw"></app-comic>
+    </div>
+    <div class="row">
+        <app-comic [comic]="xkcd"></app-comic>
+    </div>
+    <div class="row">
+        <app-comic [comic]="smbc"></app-comic>
     </div>
 </div>
 

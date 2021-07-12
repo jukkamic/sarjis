@@ -167,7 +167,7 @@ def parseHsComic(url, comicTitle:str):
 
     figure_tag = soup.find("figure", attrs={"class": "cartoon image scroller"})
     if not figure_tag:
-        figure_tag = soup.find("figure", attrs={"class": "cartoon image "})        
+        figure_tag = soup.find("figure", attrs={"class": "cartoon image"})        
     img_url= "https:" + figure_tag.find("img")["data-srcset"]
     img_url=img_url.split(" ")[0]
     img_file = img_url.split('/')[-1]

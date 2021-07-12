@@ -11,8 +11,7 @@ style="margin-bottom: 20px; padding-bottom: 20px; background-color: rgb(245, 245
             <button *ngIf="comic.prev_id; else elseBlock" type="button" (click)="getComic(comic.name, comic.prev_id, i)"
             class="btn btn-outline-primary btn-sm">&laquo;</button>
             <ng-template #elseBlock>
-                Content to render when condition is false.
-              </ng-template>
+            </ng-template>
         </div>
         <div class="img col-md-10">
             <img src="{{ImageFilePath}}/{{comic.img_file}}" title="{{comic.alt}}" 

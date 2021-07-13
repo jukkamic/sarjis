@@ -13,8 +13,9 @@ pip install django
 pip install djangorestframework
 pip install django-cors-headers
 pip install beautifulsoup4
+pip install django-clearcache
 
-(not sure if this was necessary as I had to run the following pip install anyway...)
+(not sure if python3-lxml was necessary)
 sudo apt-get install python3-lxml 
 pip install lxml
 

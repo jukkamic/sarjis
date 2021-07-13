@@ -4,6 +4,7 @@ from django.core import serializers
 from rest_framework.fields import empty
 from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
+from rest_framework import status
 from .models import Comic
 from .serializers import ComicSerializer
 import http.client
@@ -35,8 +36,7 @@ def getLatest(request, name:str):
             comic = comic_serializer.save()            
             return fetch_prev_and_update_links(name, comic)
         else:
-            return JsonResponse(status=500, data = {
-                "status": "false",
+            return JsonResponse(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data = {
                  "message": print("Invalid serializer for latest comic: ", comic_serializer.errors)})
 
 @csrf_exempt
@@ -74,9 +74,8 @@ def fetch_prev_and_update_links(name, comic):
         comic.save()
         return JsonResponse(ComicSerializer(comic, many=False).data, safe=False)
     else:
-        print("Invalid serializer for previous comic: ", prev_comic_serializer.errors)
-        return JsonResponse(status=500, data = {
-            "status": "false",
+#        print("Invalid serializer for previous comic: ", prev_comic_serializer.errors)
+        return JsonResponse(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data = {
             "message": print("Invalid serializer for previous comic: ", prev_comic_serializer.errors)})
 
 def parse(name, url):

@@ -10,24 +10,54 @@ from .xkcd import XkcdParser
 
 class Parser():
 
+    comicSources:any = [
+            {
+                "name": "fingerpori",
+                "title": "Fingerpori",
+                "parser": HsParser
+            },
+            {
+                "name": "vw",
+                "title": "Viivi ja Wagner",
+                "parser": HsParser
+            },
+            {
+                "name": "fokit",
+                "title": "Fok_It",
+                "parser": HsParser
+            },
+            {
+                "name": "dilbert",
+                "title": "",
+                "parser": DilbertParser
+            },
+            {
+                "name": "xkcd",
+                "title": "",
+                "parser": XkcdParser
+            },
+            {
+                "name": "smbc",
+                "title": "",
+                "parser": SmbcParser
+            },
+            {
+                "name": "pbf",
+                "title": "",
+                "parser": PbfParser
+            },
+            {
+                "name": "velho",
+                "title": "Velho",
+                "parser": HsParser
+            },
+        ]
+
     @staticmethod
     def parse(name:str, path:str):
-        if name=="fingerpori":
-            return HsParser.parse(path, "Fingerpori")
-        if name=="vw":
-            return HsParser.parse(path, "Viivi ja Wagner")
-        if name=="velho":
-            return HsParser.parse(path, "Velho")
-        if name=="fokit":
-            return HsParser.parse(path, "Fok_It")
-        if name == "xkcd":
-            return XkcdParser.parse(path)
-        if name=="smbc":
-            return SmbcParser.parse(path)
-        if name=="dilbert":
-            return DilbertParser.parse(path)
-        if name=="pbf":
-            return PbfParser.parse(path)
+        for source in Parser.comicSources:
+            if source['name'] == name:
+                return source['parser'].parse(path, source['title'])            
         return JsonResponse(data={"content": "No parser found for requested comic: " + name}, 
                             status=status.HTTP_404_NOT_FOUND)
 
@@ -61,3 +91,11 @@ class Parser():
             comic.prev_id = prev_comic.id
             comic.save()
             return JsonResponse(ComicSerializer(comic, many=False).data, safe=False)
+
+    @staticmethod
+    def getComicNames():
+        names = []
+        for source in Parser.comicSources:
+            names.append({'name': source['name']})
+        print("Parser: ", names)
+        return names

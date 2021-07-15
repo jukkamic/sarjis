@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 class SmbcParser():
 
-    def parse(path):
+    def parse(path, title_in_html=""):
         print("parseSmbc(): ", path)
         if path != "/":
             path = "/comic/" + path.split('/')[-1]

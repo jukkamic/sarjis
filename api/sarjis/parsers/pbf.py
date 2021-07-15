@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 class PbfParser():
     
-    def parse(path):
+    def parse(path, title_in_html=""):
         print("parsePbf(): ", path)
         if path != "/":
             path = "/comics/" + path.split("/")[-2] + "/"

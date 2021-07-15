@@ -1,20 +1,10 @@
 from .parsers.parser import Parser
 from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse
-from django.core import serializers
-from rest_framework.fields import empty
-from rest_framework.parsers import JSONParser
 from django.http.response import JsonResponse
 from rest_framework import status
 from .models import Comic
 from .serializers import ComicSerializer
-import http.client
-import urllib.request
-import os
-from django.conf import settings
-from bs4 import BeautifulSoup
 import json
-from django.core.files.storage import default_storage
 
 @csrf_exempt
 def getComic(request, name:str, id:int):
@@ -62,3 +52,7 @@ def getAllLatest(request):
                          json.loads(fokit.content),
                          json.loads(pbf.content)
                          ], safe=False)
+
+@csrf_exempt
+def getNames(request):
+    return JsonResponse(data=Parser.getComicNames(), safe=False)

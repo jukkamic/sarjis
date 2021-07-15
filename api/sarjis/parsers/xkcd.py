@@ -2,7 +2,7 @@ from .common import Common
 from bs4 import BeautifulSoup
 
 class XkcdParser():
-    def parse(path):
+    def parse(path, title_in_html=""):
         page_html = Common.fetchPage("xkcd.com", path)
             
         start_perm_link = page_html.find("Permanent link to this comic:") + 30

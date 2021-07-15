@@ -14,15 +14,6 @@ export class AppComponent implements OnInit {
 
   all_comics:any=[];
   focusOnOne:boolean = false;
-/*   fp:any;
-  vw:any;
-  xkcd:any;
-  smbc:any;
-  dilbert:any;
-  velho:any;
-  fokit:any;
-  pbf:any;
- */
 
   focusChangedHandler(comic:any) {
     this.focusOnOne = !this.focusOnOne;
@@ -39,35 +30,13 @@ export class AppComponent implements OnInit {
   }    
 
   ngOnInit(): void {
-    this.service.getAllLatestComics().subscribe(data=>{
+//    this.service.getAllLatestComics().subscribe(data=>{
+//      this.all_comics = data;
+//    });
+    this.service.getAllNames().subscribe(data=>{
       this.all_comics = data;
-    });
-
-/*     this.service.getLatestComic("fingerpori").subscribe(data=>{
-      this.fp = data;
-    });
-    this.service.getLatestComic("vw").subscribe(data=>{
-      this.vw = data;
-    });
-    this.service.getLatestComic("xkcd").subscribe(data=>{
-      this.xkcd = data;
-    });
-    this.service.getLatestComic("smbc").subscribe(data=>{
-      this.smbc = data;
-    });
-    this.service.getLatestComic("dilbert").subscribe(data=>{
-      this.dilbert = data;
-    });
-    this.service.getLatestComic("velho").subscribe(data=>{
-      this.velho = data;
-    });
-    this.service.getLatestComic("fokit").subscribe(data=>{
-      this.fokit = data;
-    });
-    this.service.getLatestComic("pbf").subscribe(data=>{
-      this.pbf = data;
-    });
- */  }
+    })
+  }
 
 }
 

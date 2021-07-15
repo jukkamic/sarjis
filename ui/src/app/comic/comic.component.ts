@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { ComicService } from 'src/app/comic.service';
 
 @Component({
@@ -6,10 +6,16 @@ import { ComicService } from 'src/app/comic.service';
   templateUrl: './comic.component.html',
   styleUrls: ['./comic.component.css']
 })
-export class ComicComponent {
+export class ComicComponent implements OnInit {
 
   constructor(private service:ComicService) { 
     this.ImageFilePath=this.service.ImageUrl;
+  }
+
+  ngOnInit(): void {
+    this.service.getLatestComic(this.comic.name).subscribe(data=>{
+      this.comic = data;
+    });
   }
 
   @Input() comic:any;

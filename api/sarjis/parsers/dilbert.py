@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 class DilbertParser:
 
-    def parse(path):
+    def parse(path, title_in_html=""):
         page_html = Common.fetchPage("dilbert.com", path)
 
         soup = BeautifulSoup(page_html, features="lxml")

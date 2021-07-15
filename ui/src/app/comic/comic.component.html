@@ -1,28 +1,27 @@
-<div class="container-fluid justify-content-center" 
-style="margin-bottom: 20px; padding-bottom: 20px; background-color: rgb(245, 245, 245);">
-    <div class="row">
-        <div class="col">
-            <h2 class="offset-1">{{comic.display_name}}</h2>
-            <i *ngIf="comic.date_publish" class="offset-1">{{comic.date_publish | date: 'dd.MM.yyyy'}}</i>
-            <b *ngIf="comic.title" class="offset-1">{{comic.title}}</b>
-        </div>
+<div class="row" 
+    style="margin-bottom: 20px; padding-bottom: 20px; background-color: rgb(245, 245, 245);">
+    <div class="col-11 offset-1">
+        <h2>{{comic.display_name}}</h2>
+        <i *ngIf="comic.date_publish">{{comic.date_publish | date: 'dd.MM.yyyy'}}</i>
+        <b *ngIf="comic.title">{{comic.title}}</b>
     </div>
-    <div class="row justify-content-center">
-        <div class="col-md-1 d-grid gap-1">
-            <button *ngIf="comic.prev_id; else elseBlock" type="button" (click)="getComic(comic.name, comic.prev_id)"
-            class="btn btn-outline-dark btn-sm">&laquo;</button>
-            <ng-template #elseBlock>
-            </ng-template>
-        </div>
-        <div class="img col-md-10">
-            <img *ngIf="comic.img_file" src="{{ImageFilePath}}/{{comic.img_file}}" title="{{comic.alt}}" 
-                class="img-fluid"
-                (click)="changeFocus()"/>
-        </div>
-        <div class="col-md-1 d-grid gap-1">
-            <button *ngIf="comic.next_id" type="button" (click)="getComic(comic.name, comic.next_id)"
-            class="btn btn-outline-dark btn-sm">&raquo;</button>
-        </div>
+<div class="row justify-content-center">
+    <div class="col-1 d-grid gap-1">
+        <button *ngIf="comic.prev_id; else elseBlock" type="button" (click)="getComic(comic.name, comic.prev_id)"
+            class="btn btn-outline-dark"><h3>&laquo;</h3></button>
+        <ng-template #elseBlock>
+        </ng-template>
     </div>
-    <div class="row offset-1">{{comic.display_source}}</div>
+    <div class="col-10">
+        <img *ngIf="comic.img_file" src="{{ImageFilePath}}/{{comic.img_file}}" title="{{comic.alt}}" 
+            class="img-fluid"
+            (click)="changeFocus()"/>
+    </div>
+    <div class="col-1 d-grid gap-1">
+        <button *ngIf="comic.next_id" type="button" (click)="getComic(comic.name, comic.next_id)"
+            class="btn btn-outline-dark btn-sm"><h3>&raquo;</h3></button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-11 offset-1">{{comic.display_source}}</div>
 </div>

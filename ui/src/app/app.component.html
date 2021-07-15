@@ -1,11 +1,12 @@
 <div
-    class="container-fluid justify-content-center" style="background-color: rgb(235, 235, 235);">
+    class="container-md justify-content-center" 
+    style="background-color: rgb(235, 235, 235);">
     <div class="row">
         <div class="col text-center">
             <h2>Sarjis~Kotkis</h2>
         </div>
     </div>
-    <div *ngFor="let comic of all_comics" class="row">
+    <div *ngFor="let comic of all_comics">
 <!--         <button (click)="singleComic(comic)">focus</button>
  -->        <app-comic [comic]="comic" (focusChanged)="focusChangedHandler($event)"></app-comic>
     </div>

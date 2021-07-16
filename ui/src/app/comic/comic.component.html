@@ -14,8 +14,8 @@
     </div>
     <div class="col-10">
         <img *ngIf="comic.img_file" src="{{ImageFilePath}}/{{comic.img_file}}" title="{{comic.alt}}" 
-            class="img-fluid"
-            (click)="changeFocus()"/>
+            class="img-fluid"/>
+            <!-- (click)="changeFocus()" -->
     </div>
     <div class="col-1 d-grid gap-1">
         <button *ngIf="comic.next_id" type="button" (click)="getComic(comic.name, comic.next_id)"

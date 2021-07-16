@@ -1,4 +1,6 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
+import { throwError } from 'rxjs';
 import { ComicService } from 'src/app/comic.service';
 
 @Component({

@@ -4,7 +4,6 @@ from bs4 import BeautifulSoup
 class PbfParser():
     
     def parse(path, title_in_html=""):
-        print("parsePbf(): ", path)
         if path != "/":
             path = "/comics/" + path.split("/")[-2] + "/"
         page_html = Common.fetchPage("pbfcomics.com", path)
@@ -14,7 +13,6 @@ class PbfParser():
         nav_tag = soup.find("div", attrs={"id": "pbf-bottom-pagination"})
 
         if path == "/":
-            print("get latest comic and parse that")
             perm_link = nav_tag.find("a", attrs={"rel": "latest"})["href"]
             return PbfParser.parse(perm_link)
 

@@ -18,10 +18,6 @@ class HsParser():
 
         next_link, prev_link = handleLinksInHS(soup)
 
-        print("handling permalink: ", path)
-        print("prev_link", prev_link)
-        print("next_link", next_link)
-
         figure_tag = soup.find("figure", attrs={"class": "cartoon image scroller"})
         if not figure_tag:
             figure_tag = soup.find("figure", attrs={"class": "cartoon image"})        
@@ -31,7 +27,6 @@ class HsParser():
         img_file = Common.saveImage(img_url)
 
         date_publish = figure_tag.find("meta", attrs={"itemprop": "datePublished"})["content"]
-        print("date_publish: ", date_publish)
 
         return {'perm_link': perm_link,
                 'img_url': img_url,

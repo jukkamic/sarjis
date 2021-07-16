@@ -3,7 +3,7 @@ from django.conf.urls import url
 from django.views.decorators.cache import cache_page
 from . import views
 
-timeout = 60*60*3
+timeout = 60*60
 
 urlpatterns = {
     path('list-names/', views.getNames),

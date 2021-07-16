@@ -1,3 +1,4 @@
+from .cyanide import CyanideParser
 from .luonto import LuontoParser
 from .pbf import PbfParser
 from .dilbert import DilbertParser
@@ -42,6 +43,11 @@ class Parser():
                 "name": "smbc",
                 "title": "",
                 "parser": SmbcParser
+            },
+            {
+                "name": "cyanide",
+                "title": "",
+                "parser": CyanideParser
             },
             {
                 "name": "fokit",

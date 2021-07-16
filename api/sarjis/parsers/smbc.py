@@ -4,7 +4,6 @@ from bs4 import BeautifulSoup
 class SmbcParser():
 
     def parse(path, title_in_html=""):
-        print("parseSmbc(): ", path)
         if path != "/":
             path = "/comic/" + path.split('/')[-1]
         page_html = Common.fetchPage("www.smbc-comics.com", path)
@@ -18,7 +17,6 @@ class SmbcParser():
 
         perm_link = soup.find('input', {"id":"permalinktext"})['value']
         perm_link = "https://" + perm_link.split("//")[-1]
-        print("smbc permalink: ", perm_link)
 
         img_url = soup.find('div', {"id":"cc-comicbody"}).find('img')['src']
         img_file = Common.saveImage(img_url)
@@ -35,11 +33,6 @@ class SmbcParser():
             next_link = next_element['href']
         else:
             next_link = None
-        
-        print("Smbc")
-        print("perm_link: ", perm_link)
-        print("prev_link: ", prev_link)
-        print("next_link: ", next_link)
 
         return {'perm_link': perm_link,
                 'img_url': img_url,

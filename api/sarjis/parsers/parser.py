@@ -1,12 +1,14 @@
-from ..serializers import ComicSerializer
-from ..models import Comic
-from django.http.response import JsonResponse
-from rest_framework import status
+from .luonto import LuontoParser
 from .pbf import PbfParser
 from .dilbert import DilbertParser
 from .smbc import SmbcParser
 from .hs import HsParser
 from .xkcd import XkcdParser
+
+from ..serializers import ComicSerializer
+from ..models import Comic
+from django.http.response import JsonResponse
+from rest_framework import status
 
 class Parser():
 
@@ -22,9 +24,9 @@ class Parser():
                 "parser": HsParser
             },
             {
-                "name": "fokit",
-                "title": "Fok_It",
-                "parser": HsParser
+                "name": "luonto",
+                "title": "Kamala luonto",
+                "parser": LuontoParser
             },
             {
                 "name": "dilbert",
@@ -42,6 +44,11 @@ class Parser():
                 "parser": SmbcParser
             },
             {
+                "name": "fokit",
+                "title": "Fok_It",
+                "parser": HsParser
+            },
+            {
                 "name": "pbf",
                 "title": "",
                 "parser": PbfParser
@@ -50,7 +57,7 @@ class Parser():
                 "name": "velho",
                 "title": "Velho",
                 "parser": HsParser
-            },
+            }
         ]
 
     @staticmethod
@@ -97,5 +104,4 @@ class Parser():
         names = []
         for source in Parser.comicSources:
             names.append({'name': source['name']})
-        print("Parser: ", names)
         return names

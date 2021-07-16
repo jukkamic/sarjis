@@ -21,6 +21,8 @@ def getLatest(request, name:str):
     try:
         comic_from_db = Comic.objects.get(perm_link = comic_json['perm_link'])
         return JsonResponse(ComicSerializer(comic_from_db, many=False).data, safe=False)
+    except KeyError:
+        return JsonResponse(data={"message": "Link to comic " + name + " was not found"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR, safe=False)
     except Comic.DoesNotExist:
         comic_serializer = ComicSerializer(data = comic_json, many=False)
         if comic_serializer.is_valid():

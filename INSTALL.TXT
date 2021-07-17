@@ -1,4 +1,4 @@
-New ubuntu 20 instance:
+New AWS Ubuntu 20 instance:
 
 sudo apt update
 sudo apt upgrade
@@ -55,5 +55,33 @@ APACHE
 
 sudo apt-get install apache2
 
-sudo mkdir /var/www/html/sarjis
-sudo ln -s /home/ubuntu/sarjis/ui/dist/ui/* /var/www/html/sarjis/
+sudo mkdir /var/www/sarjis
+sudo ln -s /home/ubuntu/sarjis/ui/dist/ui/* /var/www/sarjis/
+
+enable mod rewrite. 
+
+sarjis.conf:
+
+<VirtualHost *:80>
+        ServerName sarjis.kotkis.fi
+        ServerAlias kotkis.fi
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/sarjis/
+
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+        <Directory "/var/www/sarjis/">
+                RewriteEngine On
+        # If an existing asset or directory is requested go to it as it is
+                RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -f [OR]
+                RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} -d
+                RewriteRule ^ - [L]
+
+        # If the requested resource doesn't exist, use index.html
+                RewriteRule ^ /index.html
+        </Directory>
+</VirtualHost>
+
+cd /etc/apache2/sites-enabled
+sudo ln -s ../sites-available/sarjis.conf .

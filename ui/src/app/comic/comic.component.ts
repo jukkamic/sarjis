@@ -14,6 +14,7 @@ export class ComicComponent implements OnInit {
   name:any;
   id:any;
   @Input() comic:any;
+  @Input() listView:boolean=false;
   ImageFilePath:string;
 
   constructor(

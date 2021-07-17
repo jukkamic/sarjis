@@ -5,16 +5,27 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { ComicComponent } from './comic/comic.component';
 import { ComicService } from './comic.service';
+import { RouterModule, Routes } from '@angular/router';
+import { ComicListComponent } from './comic-list/comic-list.component';
 
+const routes: Routes = [
+  { path: 'sarjis/:name/:id', component: ComicComponent },
+  { path: 'sarjis/:name', component: ComicComponent },
+  { path: 'sarjis', component: ComicListComponent },
+  { path: '', redirectTo: 'sarjis', pathMatch: 'full' },
+];
 
 @NgModule({
+
   declarations: [
     AppComponent,
-    ComicComponent
+    ComicComponent,
+    ComicListComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    RouterModule.forRoot(routes),
   ],
   providers: [ComicService],
   bootstrap: [AppComponent]

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ComicService } from 'src/app/comic.service';
 
 @Component({
@@ -9,11 +10,15 @@ import { ComicService } from 'src/app/comic.service';
 
 export class AppComponent implements OnInit {
 
-  constructor(private service:ComicService) {     
+  constructor(private service:ComicService, private router:Router) {     
   }
 
   all_comics:any=[];
   focusOnOne:boolean = false;
+
+  onSelect(comic:any) { 
+    this.router.navigate(['/sarjis', comic.name])
+  }
 
   focusChangedHandler(comic:any) {
     this.focusOnOne = !this.focusOnOne;

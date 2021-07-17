@@ -21,7 +21,7 @@ export class ComicService {
     return this.http.get<any>(this.APIUrl + name + "/" + id);
   }
 
-  getLatestComic(name:string):Observable<any> {
+  getLatestComic(name:string | null):Observable<any> {
     return this.http.get<any>(this.APIUrl + name).pipe(
       catchError(this.handleError));
   }

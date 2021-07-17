@@ -1,26 +1,31 @@
-<div class="row" 
-    style="margin-bottom: 20px; padding-bottom: 20px; background-color: rgb(245, 245, 245);">
-    <div class="col-11 offset-1">
-        <h2 *ngIf="comic.display_name">{{comic.display_name}}</h2>
+<div class="container"
+    style="background-color: rgb(245, 245, 245);
+    margin-top: 1em;
+    margin-bottom: 1em;">
+<div class="row justify-content-left">
+    <div class="col-12 col-md-11 offset-md-1">
+        <h3 *ngIf="comic.display_name">{{comic.display_name}}</h3>
         <i *ngIf="comic.date_publish">{{comic.date_publish | date: 'dd.MM.yyyy'}}</i>
         <b *ngIf="comic.title">{{comic.title}}</b>
     </div>
-<div class="row justify-content-center">
-    <div class="col-1 d-grid gap-1">
+</div>    
+<div class="row justify-content-center align-items-center">
+    <div class="col-12 col-md-1 justify-content-center">
         <button *ngIf="listView && comic.prev_id; else detailsView" 
             type="button" 
             (click)="getComic(comic.name, comic.prev_id)"
             class="btn btn-outline-dark"
-            style="border-color:transparent"><h3>&laquo;</h3></button>
+            ><h3>&laquo;</h3></button>
+            <!-- style="border-color:transparent;"-->
         <ng-template #detailsView>
             <button 
             *ngIf="comic.prev_id" type="button" 
             routerLink="/sarjis/{{comic.name}}/{{comic.prev_id}}"
             class="btn btn-outline-dark"
-            style="border-color:transparent"><h3>&laquo;</h3></button>
+            ><h3>&laquo;</h3></button>
         </ng-template>
     </div>
-    <div class="col-10">
+    <div class="col-12 col-md-10">
         <img routerLink="/sarjis/{{comic.name}}/{{comic.id}}" 
             *ngIf="comic.img_file" 
             src="{{ImageFilePath}}/{{comic.img_file}}" 
@@ -28,23 +33,23 @@
             class="img-fluid"
             style="cursor: pointer"/>
     </div>
-    <div class="col-1 d-grid gap-1">
+    <div class="col-12 col-md-1">
         <button *ngIf="listView && comic.next_id; else detailsNextView"
             type="button" 
             (click)="getComic(comic.name, comic.next_id)"
             class="btn btn-outline-dark btn-sm"
-            style="border-color:transparent"><h3>&raquo;</h3></button>
+            ><h3>&raquo;</h3></button>
         <ng-template #detailsNextView>
             <button 
             *ngIf="comic.next_id" type="button" 
             routerLink="/sarjis/{{comic.name}}/{{comic.next_id}}"
             class="btn btn-outline-dark"
-            style="border-color:transparent"><h3>&raquo;</h3></button>
+            ><h3>&raquo;</h3></button>
         </ng-template>
     </div>
 </div>
 <div class="row">
-    <div class="col-11 offset-1">
+    <div class="col-12 col-md-11 offset-md-1">
         <a target="_blank" 
             *ngIf="comic.perm_link.indexOf('http')==0; else combineUrl" 
             href="{{comic.perm_link}}"
@@ -55,4 +60,5 @@
                 style="color: #212529;">{{comic.display_source}}</a>
         </ng-template>
     </div>
+</div>
 </div>

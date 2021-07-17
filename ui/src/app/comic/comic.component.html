@@ -25,5 +25,13 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-11 offset-1">{{comic.display_source}}</div>
+    <div class="col-11 offset-1">
+        <a target="_blank" 
+            *ngIf="comic.perm_link.indexOf('http')==0; else combineUrl" 
+            href="{{comic.perm_link}}">{{comic.display_source}}</a>
+        <ng-template #combineUrl>
+            <a target="_blank" 
+                href="http://{{comic.display_source}}{{comic.perm_link}}">{{comic.display_source}}</a>
+        </ng-template>
+    </div>
 </div>

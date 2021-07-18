@@ -1,22 +1,20 @@
 <div
     class="container-md justify-content-center" 
     style="background-color: rgb(235, 235, 235);">
-    <div class="row linkheader">
-        <div routerLink="/sarjis" class="col text-center align-content-middle">
+    <div class="row">
+        <div class="col-2 dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Menu
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a class="dropdown-item" href="http://www.kotkis.fi/" target="_blank">Kotkis</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+            </div>
+          </div>
+        <div routerLink="/sarjis" class="linkheader col-8 text-center align-content-middle">
             <h2>Sarjis~Kotkis</h2>
         </div>
     </div>
     <router-outlet></router-outlet>
-<!--         <button (click)="singleComic(comic)">focus</button>
- -->
- <!--       
-    <div *ngFor="let comic of all_comics">
- 
-        <app-comic [comic]="comic" (focusChanged)="focusChangedHandler($event)"></app-comic>
-    </div>
-
--->
- 
-<!--        <h2 (click)="onSelect(comic)">{{comic.name}}</h2>
--->    
 </div>

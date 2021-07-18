@@ -1,6 +1,5 @@
 <div class="container"
     style="background-color: rgb(245, 245, 245);
-    margin-top: 1em;
     margin-bottom: 1em;">
 <div class="row justify-content-left">
     <div class="col-12 col-md-11 offset-md-1">
@@ -9,20 +8,19 @@
         <b *ngIf="comic.title">{{comic.title}}</b>
     </div>
 </div>    
-<div class="row justify-content-center align-items-center">
-    <div class="col-12 col-md-1 justify-content-center">
+<div class="row">
+    <div class="col-12 col-md-1 d-grid gap-1">
         <button *ngIf="listView && comic.prev_id; else detailsView" 
             type="button" 
             (click)="getComic(comic.name, comic.prev_id)"
             class="btn btn-outline-dark"
-            ><h3>&laquo;</h3></button>
-            <!-- style="border-color:transparent;"-->
+            style="border-color:transparent;"><h3>&laquo;</h3></button>
         <ng-template #detailsView>
             <button 
             *ngIf="comic.prev_id" type="button" 
             routerLink="/sarjis/{{comic.name}}/{{comic.prev_id}}"
             class="btn btn-outline-dark"
-            ><h3>&laquo;</h3></button>
+            style="border-color:transparent;"><h3>&laquo;</h3></button>
         </ng-template>
     </div>
     <div class="col-12 col-md-10">
@@ -33,18 +31,18 @@
             class="img-fluid"
             style="cursor: pointer"/>
     </div>
-    <div class="col-12 col-md-1">
+    <div class="col-12 col-md-1 d-grid gap-1">
         <button *ngIf="listView && comic.next_id; else detailsNextView"
             type="button" 
             (click)="getComic(comic.name, comic.next_id)"
             class="btn btn-outline-dark btn-sm"
-            ><h3>&raquo;</h3></button>
+            style="border-color:transparent;"><h3>&raquo;</h3></button>
         <ng-template #detailsNextView>
             <button 
             *ngIf="comic.next_id" type="button" 
             routerLink="/sarjis/{{comic.name}}/{{comic.next_id}}"
             class="btn btn-outline-dark"
-            ><h3>&raquo;</h3></button>
+            style="border-color:transparent;"><h3>&raquo;</h3></button>
         </ng-template>
     </div>
 </div>

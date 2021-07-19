@@ -14,15 +14,11 @@ export class ComicService {
   constructor(private http:HttpClient) { }
 
   getComic(name:string, id:any):Observable<any> {
-    return this.http.get<any>(this.APIUrl + name + "/" + id);
-  }
-
-  getComicSync(name:string, id:any) {
-    return this.http.get<any>(this.APIUrl + name + "/" + id);
+    return this.http.get<any>(this.APIUrl + name + "/" + id + "/");
   }
 
   getLatestComic(name:string | null):Observable<any> {
-    return this.http.get<any>(this.APIUrl + name).pipe(
+    return this.http.get<any>(this.APIUrl + name + "/").pipe(
       catchError(this.handleError));
   }
 
@@ -33,7 +29,6 @@ export class ComicService {
   getAllNames():Observable<any[]> {
     return this.http.get<any[]>(this.APIUrl + "list-names/")
   }
-
   
   private handleError(error: HttpErrorResponse) {
     if (error.status === 0) {
@@ -51,4 +46,3 @@ export class ComicService {
   }
 
 }
-

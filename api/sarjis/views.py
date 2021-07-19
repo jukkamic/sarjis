@@ -1,6 +1,7 @@
 from .parsers.parser import Parser
 from django.views.decorators.csrf import csrf_exempt
 from django.http.response import JsonResponse
+from django.http import HttpRequest
 from rest_framework import status
 from .models import Comic
 from .serializers import ComicSerializer
@@ -56,5 +57,6 @@ def getAllLatest(request):
                          ], safe=False)
 
 @csrf_exempt
-def getNames(request):
+def getNames(request):    
+#    resp.set_cookie(key = 'mycookie', value = 'works')
     return JsonResponse(data=Parser.getComicNames(), safe=False)

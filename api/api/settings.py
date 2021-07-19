@@ -18,6 +18,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 IMAGE_URL = '/images/'
 IMAGE_ROOT = os.path.join(BASE_DIR,"images")
+# SESSION_COOKIE_DOMAIN = "localhost"
 
 CACHES = {
    'default': {

@@ -11,8 +11,6 @@ import { ComicService } from 'src/app/comic.service';
 })
 export class ComicComponent implements OnInit {
 
-  name:any;
-  id:any;
   @Input() comic:any;
   @Input() listView:boolean=false;
   ImageFilePath:string;
@@ -26,30 +24,17 @@ export class ComicComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params=>{
-      this.name = params.get('name');
-      this.id = params.get('id');
-      if( this.id == null ) {
-        // Id is null. 
-        // Get latest comic name from 
-        //   1) url param 2) comic input
-        if( this.name == null ) {
-          this.name = this.comic.name;
-        }
-        this.service.getLatestComic(this.name).subscribe(data=>{
+    if( !this.listView )
+      this.route.paramMap.subscribe(params=>{
+        var id = params.get('id');
+        this.service.getComic(id).subscribe(data=>{
           this.comic = data;
         });
-      } else {
-        // Id given as URL param. Therefore Name is in path as well.
-        this.service.getComic(this.name, this.id).subscribe(data=>{
-          this.comic = data;
-        });
-      }
-    });
+      });
   }
 
-  getComic(name:any, id:any) {
-    this.service.getComic(name, id).subscribe(data=>{
+  getComic(id:any) {
+    this.service.getComic(id).subscribe(data=>{
       this.comic = data;
     });
   }

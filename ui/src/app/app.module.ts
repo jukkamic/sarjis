@@ -9,8 +9,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ComicListComponent } from './comic-list/comic-list.component';
 
 const routes: Routes = [
-  { path: 'sarjis/:name/:id', component: ComicComponent },
-  { path: 'sarjis/:name', component: ComicComponent },
+  { path: 'sarjis/:id', component: ComicComponent },
   { path: 'sarjis', component: ComicListComponent },
   { path: '', redirectTo: 'sarjis', pathMatch: 'full' },
 ];

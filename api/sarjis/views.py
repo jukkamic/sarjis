@@ -8,17 +8,21 @@ from .serializers import ComicSerializer
 import json
 
 @csrf_exempt
-def getComic(request, name:str, id:int):
+def getComic(request, id:int):
     comic = Comic.objects.get(id=id)
     if comic.prev_id is not None:
         return JsonResponse(ComicSerializer(comic, many=False).data, safe=False)
     else:
-        return Parser.updateLinks(name, comic)
+        return Parser.updateLinks(comic.name, comic)
 
 @csrf_exempt
 def getLatest(request, name:str):
     comic_json = Parser.parse(name, "/")
     comic_json['name'] = name
+#    if(name == 'vw' or name== 'fokit'):
+#        return JsonResponse(status=500, 
+#        data={"message": "Error test", "status": "false"}, 
+#            safe=False)
     try:
         comic_from_db = Comic.objects.get(perm_link = comic_json['perm_link'])
         return JsonResponse(ComicSerializer(comic_from_db, many=False).data, safe=False)
@@ -31,7 +35,7 @@ def getLatest(request, name:str):
             return Parser.updateLinks(name, comic)
         else:
             print("Invalid serializer for latest comic: ", comic_serializer.errors)
-            return JsonResponse(status=status.HTTP_500_INTERNAL_SERVER_ERROR, data = {
+            return JsonResponse(status=status.HTTP_500_INTERNAL_SERVER_ERROR, error = {
                  "message": [{"Invalid serializer for latest comic: ", comic_serializer.errors}]})
 
 @csrf_exempt

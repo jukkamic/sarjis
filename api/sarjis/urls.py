@@ -7,7 +7,7 @@ timeout = 60*60
 
 urlpatterns = {
     path('list-names/', views.getNames),
-    path('<str:name>/<int:id>/', cache_page(timeout)(views.getComic)),
-    path('<str:name>/', cache_page(timeout)(views.getLatest)),
-    path('', cache_page(timeout)(views.getAllLatest)),
+    path('comics/id/<int:id>/', cache_page(timeout)(views.getComic)),
+    path('comics/name/<str:name>/', cache_page(timeout)(views.getLatest)),
+    path('comics/', cache_page(timeout)(views.getAllLatest)),
 }

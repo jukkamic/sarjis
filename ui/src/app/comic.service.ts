@@ -13,21 +13,21 @@ export class ComicService {
 
   constructor(private http:HttpClient) { }
 
-  getComic(name:string, id:any):Observable<any> {
-    return this.http.get<any>(this.APIUrl + name + "/" + id + "/");
+  getComic(id:any):Observable<any> {
+    return this.http.get<any>(this.APIUrl + "comics/id/" + id + "/");
   }
 
   getLatestComic(name:string | null):Observable<any> {
-    return this.http.get<any>(this.APIUrl + name + "/").pipe(
+    return this.http.get<any>(this.APIUrl + "comics/name/" + name + "/").pipe(
       catchError(this.handleError));
   }
 
   getAllLatestComics():Observable<any[]> {
-    return this.http.get<any[]>(this.APIUrl)
+    return this.http.get<any[]>(this.APIUrl + "comics/")
   }
 
   getAllNames():Observable<any[]> {
-    return this.http.get<any[]>(this.APIUrl + "list-names/")
+    return this.http.get<any[]>(this.APIUrl + "list-names/");
   }
   
   private handleError(error: HttpErrorResponse) {

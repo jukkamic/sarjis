@@ -12,19 +12,19 @@
     <div class="col-12 col-md-1 d-grid gap-1">
         <button *ngIf="listView && comic.prev_id; else detailsView" 
             type="button" 
-            (click)="getComic(comic.name, comic.prev_id)"
+            (click)="getComic(comic.prev_id)"
             class="btn btn-outline-dark"
             style="border-color:transparent;"><h3>&laquo;</h3></button>
         <ng-template #detailsView>
             <button 
             *ngIf="comic.prev_id" type="button" 
-            routerLink="/sarjis/{{comic.name}}/{{comic.prev_id}}"
+            routerLink="/sarjis/{{comic.prev_id}}"
             class="btn btn-outline-dark"
             style="border-color:transparent;"><h3>&laquo;</h3></button>
         </ng-template>
     </div>
     <div class="col-12 col-md-10">
-        <img routerLink="/sarjis/{{comic.name}}/{{comic.id}}" 
+        <img routerLink="/sarjis/{{comic.id}}" 
             *ngIf="comic.img_file" 
             src="{{ImageFilePath}}/{{comic.img_file}}" 
             title="{{comic.alt}}" 
@@ -34,13 +34,13 @@
     <div class="col-12 col-md-1 d-grid gap-1">
         <button *ngIf="listView && comic.next_id; else detailsNextView"
             type="button" 
-            (click)="getComic(comic.name, comic.next_id)"
+            (click)="getComic(comic.next_id)"
             class="btn btn-outline-dark btn-sm"
             style="border-color:transparent;"><h3>&raquo;</h3></button>
         <ng-template #detailsNextView>
             <button 
             *ngIf="comic.next_id" type="button" 
-            routerLink="/sarjis/{{comic.name}}/{{comic.next_id}}"
+            routerLink="/sarjis/{{comic.next_id}}"
             class="btn btn-outline-dark"
             style="border-color:transparent;"><h3>&raquo;</h3></button>
         </ng-template>

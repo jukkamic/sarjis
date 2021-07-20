@@ -1,3 +1,4 @@
+<div *ngIf = "errors != undefined && errors.length > 0">Error loading comics.</div>
 <div *ngFor="let comic of all_comics"> 
     <app-comic [comic]="comic" [listView]="true"></app-comic>
 </div>

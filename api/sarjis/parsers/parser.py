@@ -1,3 +1,4 @@
+from .redmeat import RedmeatParser
 from .cyanide import CyanideParser
 from .luonto import LuontoParser
 from .pbf import PbfParser
@@ -53,6 +54,11 @@ class Parser():
                 "name": "fokit",
                 "title": "Fok_It",
                 "parser": HsParser
+            },
+            {
+                "name": "redmeat",
+                "title": "Red Meat",
+                "parser": RedmeatParser
             },
             {
                 "name": "pbf",

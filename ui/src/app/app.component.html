@@ -7,14 +7,39 @@
               Menu
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="http://www.kotkis.fi/" target="_blank">Kotkis</a>
-              <a class="dropdown-item" href="#">Another action</a>
-              <a class="dropdown-item" href="#">Something else here</a>
+              <a class="dropdown-item" href="#" data-toggle="modal" data-target="#aboutModal">About</a>
+              <a class="dropdown-item" href="http://www.kotkis.fi/coder" target="_blank">GET /coder</a>
             </div>
           </div>
         <div routerLink="/sarjis" class="linkheader col-8 text-center align-content-middle">
             <h2>Sarjis~Kotkis</h2>
         </div>
     </div>
+
+    <!-- Modal -->
+<div class="modal fade" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="aboutModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="aboutModalLabel">About Sarjis</h5>
+      </div>
+      <div class="modal-body">
+        <blockquote>Sarjis is your most important meal of the day.</blockquote> -Hire Me
+        <hr width="100%" />
+
+        <p>See <a href="https://github.com/jukkamic/sarjis" target="_blank">Github</a> for source code.</p>
+
+        <p>This is a project for learning Python + Django with Angular (and hopefully React later).
+        As a Java developer I have little or no background in any of these techs. 
+        The motivation is to develop my full stack skills for both professional and hobby purposes.
+        </p>
+
+        <p><b>Looking for a developer?</b> Let's have a chat!</p>
+
+        <p><i>jukkamic@gmail.com</i></p>
+      </div>
+    </div>
+  </div>
+</div>
     <router-outlet></router-outlet>
 </div>

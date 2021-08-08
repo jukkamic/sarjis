@@ -5,14 +5,15 @@ class XkcdParser():
     def parse(path, title_in_html=""):
         page_html = Common.fetchPage("xkcd.com", path)
             
-        start_perm_link = page_html.find("Permanent link to this comic:") + 30
-        end_perm_link = page_html.find("<br", start_perm_link)
-        perm_link = page_html[start_perm_link:end_perm_link]
+        start_perm_link = page_html.find("Permanent link to this comic:")
+        end_perm_link = page_html.find("/>", start_perm_link)
+        perm_soup = BeautifulSoup(page_html[start_perm_link:end_perm_link + 2], features="lxml")
+        perm_link = perm_soup.find('a')['href']
         
-        start_img = page_html.find("Image URL (for hotlinking/embedding):") + 38
-        end_img = page_html.find(".png", start_img)
-
-        img_url = page_html[start_img:end_img + 4]
+        start_img = page_html.find("Image URL (for hotlinking/embedding):")
+        end_img = page_html.find("</a>", start_img)
+        img_soup = BeautifulSoup(page_html[start_img:end_img + 4], features="lxml")
+        img_url = img_soup.find('a')['href']
         img_file = Common.saveImage(img_url)
 
         soup = BeautifulSoup(page_html, features="lxml")

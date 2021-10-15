@@ -19,5 +19,5 @@ from django.conf.urls.static import static
 from django.conf import settings
 
 urlpatterns = [
-    path('api/', include('sarjis.urls'))
+    path('sarjis/', include('sarjis.urls'))
 ] + static(settings.IMAGE_URL, document_root=settings.IMAGE_ROOT)

@@ -6,7 +6,7 @@ sudo apt upgrade
 sudo apt install python3.8-venv
 sudo python3 -m venv myenv
 
-DJANGO 
+INSTALL API 
 
 source myenv/bin/activate
 pip install django
@@ -18,8 +18,13 @@ pip install django-clearcache
 (not sure if python3-lxml was necessary)
 sudo apt-get install python3-lxml 
 pip install lxml
+        - In case of failure in Windows try downloading precompiled package from
+        - https://www.lfd.uci.edu/~gohlke/pythonlibs/#lxml
+        - For Python version 3.10, Windows AMD 64 select 
+        - lxml‑4.6.3‑cp310‑cp310‑win_amd64.whl
+        - pip install c:\path\to\download\lxml‑4.6.3‑cp310‑cp310‑win_amd64.whl
 
-THE API
+RUN API
 
 (chmod 600 id rsa)
 git@github.com:jukkamic/sarjis.git
@@ -32,21 +37,24 @@ python manage.py runserver 0.0.0.0:8000
 OR
 python manage.py runserver 0.0.0.0:8000 > /dev/null 2>&1 &
 
-THE UI
+INSTALL UI
 
 sudo apt install nodejs
 sudo apt install npm
 
-sudo npm install -g @angular/cli
-(warnings of compatibility issues between versions of node and angular)
-sudo apt update
-npm cache clean -f
-
-sudo npm install -g n
-sudo n stable
-
-sudo npm install -g @angular-devkit/build-angular
 npm install
+
+- In case install did not work run the following commands
+
+        sudo npm install -g @angular/cli
+        (warnings of compatibility issues between versions of node and angular)
+        sudo apt update
+        npm cache clean -f
+
+        sudo npm install -g n
+        sudo n stable
+
+        sudo npm install -g @angular-devkit/build-angular
 
 (check prod paths in environment.prod)
 ng build

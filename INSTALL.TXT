@@ -93,3 +93,10 @@ sarjis.conf:
 
 cd /etc/apache2/sites-enabled
 sudo ln -s ../sites-available/sarjis.conf .
+
+NGINX & UWSGI
+
+copy serverconfig/nginx/sarjis-api.conf to /etc/nginx/services-available
+then symlink to services-enabled
+copy sarjis_uwsgi.ini to /etc/uwsgi/vassals
+// sudo /usr/local/bin/uwsgi --emperor /etc/uwsgi/vassals --uid ubuntu --gid ubuntu --daemonize /var/log/uwsgi-emperor.log

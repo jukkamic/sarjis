@@ -10,8 +10,7 @@ import { ComicListComponent } from './comic-list/comic-list.component';
 
 const routes: Routes = [
   { path: 'sarjis/:id', component: ComicComponent },
-  { path: 'sarjis', component: ComicListComponent },
-  { path: '', redirectTo: 'sarjis', pathMatch: 'full' },
+  { path: '', component: ComicListComponent, pathMatch: 'full' },
 ];
 
 @NgModule({

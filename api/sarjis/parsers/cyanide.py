@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 
 class CyanideParser():
     def parse(path, title_in_html=""):
-        page_html = Common.fetchPage("www.explosm.net", path)
+        page_html = Common.fetchPage("explosm.net", path)
         soup = BeautifulSoup(page_html, features="lxml")
 
         if path == "/":

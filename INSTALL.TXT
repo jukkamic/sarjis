@@ -110,6 +110,15 @@ NOTE
 Host 141.98.10.60
     KexAlgorithms +diffie-hellman-group14-sha1
 
+LOGS and misc
+        uwsgi emperor log /var/log/uwsgi-emperor.log
+        /var/log/nginx/error.log
+        journalctl -xe
+        sudo systemctl status uwsgi / nginx
+
+STARTUP
+        /var/rc.local
+
 
 
 

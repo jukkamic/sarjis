@@ -1,0 +1,12 @@
+[Unit]
+Description=uwsgi emperor for sarjis.kotkis
+After=network.target
+
+[Service]
+User=ubuntu
+Restart=always
+ExecStart=sudo /home/ubuntu/env/sarjis/bin/uwsgi --emperor /etc/uwsgi/vassals --chmod-socket=666 --uid ubuntu --gid ubuntu --daemonize /var/log/uwsgi-emperor.log
+
+[Install]
+WantedBy=multi-user.target
+

@@ -1,0 +1,12 @@
+asgiref==3.5.0
+backports.zoneinfo==0.2.1
+beautifulsoup4==4.11.1
+Django==4.0.4
+django-clearcache==1.2.1
+django-cors-headers==3.11.0
+djangorestframework==3.13.1
+lxml==4.8.0
+pytz==2022.1
+soupsieve==2.3.2.post1
+sqlparse==0.4.2
+uWSGI==2.0.20

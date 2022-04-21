@@ -1,10 +1,65 @@
 New AWS Ubuntu 20 instance:
 
-sudo apt update
-sudo apt upgrade
+*** SETUP SERVER
 
-sudo apt install python3.8-venv
-sudo python3 -m venv myenv
+        - use let's encrypt
+        sudo apt-get install nginx
+        sudo apt-get install python3-lxml (You can try without this. It can be installed later)
+
+
+*** SETUP VIRTUAL ENV
+
+        sudo apt-get install python3-venv
+        python3 -m venv /home/ubuntu/env/sarjis
+        source /home/ubuntu/env/sarjis/bin/activate
+
+*** SETUP PROJECT
+        GIT:
+        - install rsa key for git
+        - make sure to chmod 600 the key file
+        - create sub dir sarjis with ubuntu:ubuntu to /opt
+        - git clone sarjis at /opt
+
+        /opt/sarjis/api: pip install -r requirements.txt
+
+        - copy serverconfig/nginx/sarjis-api.conf to /etc/nginx/sites-available
+        - sudo ln -s /etc/nginx/sites-available/sarjis-api.conf /etc/nginx/sites-enabled/sarjis-api.conf
+
+        python3 manage.py migrate --run-syncdb
+
+*** SETUP UWSGI
+
+        sudo apt-get install python3.8-dev
+        sudo apt-get install gcc
+
+        sudo nano /etc/systemd/system/emperor.uwsgi.service
+        ( copy from serverconfig )
+
+        sudo mkdir /etc/uwsgi
+        sudo mkdir /etc/uwsgi/vassals
+        cd /etc/uwsgi/vassals
+        sudo ln -s /opt/sarjis/sarjis_uwsgi.ini sarjis_uwsgi.ini
+
+        sudo systemctl enable emperor.uwsgi.service
+
+
+======= OLD INSTRUCTIONS. VERY SCATTERED BUT SAVED JUST IN CASE. ========
+
+sudo nano /etc/systemd/system/emperor.uwsgi.service
+( copy from serverconfig )
+
+sudo mkdir /etc/uwsgi
+sudo mkdir /etc/uwsgi/vassals
+cd /etc/uwsgi/vassals
+sudo ln -s /opt/sarjis/sarjis_uwsgi.ini sarjis_uwsgi.ini
+
+sudo systemctl enable emperor.uwsgi.service
+
+
+(chmod 600 your id_rsa file)
+git@github.com:jukkamic/sarjis.git
+mkdir sarjis/api/images
+python manage.py migrate --run-syncdb
 
 INSTALL API 
 
@@ -26,11 +81,9 @@ pip install lxml
 
 RUN API
 
-(chmod 600 id rsa)
+(chmod 600 your id_rsa file)
 git@github.com:jukkamic/sarjis.git
 mkdir sarjis/api/images
-
-(migrate and syncdb may be necessary)
 python manage.py migrate --run-syncdb
 
 python manage.py runserver 0.0.0.0:8000

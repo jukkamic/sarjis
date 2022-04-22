@@ -1,15 +1,9 @@
-from ..models import Comic
-from ..serializers import ComicSerializer
-from django.http.response import JsonResponse
-from rest_framework import status
 from django.conf import settings
 import os
 import urllib.request
-import http.client
 import requests
 
 class Common():
-
 
     @staticmethod    
     def saveImage(img_url:str):

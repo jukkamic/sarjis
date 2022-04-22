@@ -3,11 +3,16 @@ from bs4 import BeautifulSoup
 
 class CyanideParser():
     def parse(path, title_in_html=""):
+        if path == "/":
+            path = "/comics/latest/"
         page_html = Common.fetchPage("explosm.net", path)
         soup = BeautifulSoup(page_html, features="lxml")
 
-        if path == "/":
-            perm_link = soup.find("a", attrs={"id": "comic-social-link"})["href"]
+        if path == "/comics/latest/":
+            link_element = soup.find("a", attrs={"id": "comic-social-link"})
+            if not link_element:
+                raise Exception("Element for permalink was not found.") 
+            perm_link = link_element["href"]
             return CyanideParser.parse(perm_link)
 
         perm_link = path

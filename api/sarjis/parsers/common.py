@@ -6,6 +6,7 @@ from django.conf import settings
 import os
 import urllib.request
 import http.client
+import requests
 
 class Common():
 
@@ -21,11 +22,12 @@ class Common():
 
     @staticmethod    
     def fetchPage(domain:str, path:str):
-        conn = http.client.HTTPSConnection(domain)
-        conn.request("GET", path)
-        response = conn.getresponse()
-        page_html:str = response.read().decode()
-        conn.close()
+        if not domain.startswith("http"):
+            domain = "https://" + domain
+        if path.startswith("http"):
+            domain = ""
+        response = requests.get(domain + path, allow_redirects=True)
+        page_html:str = response.text
         return page_html
 
 

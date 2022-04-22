@@ -45,11 +45,11 @@ class Parser():
                 "title": "",
                 "parser": SmbcParser
             },
-            {
-                "name": "cyanide",
-                "title": "",
-                "parser": CyanideParser
-            },
+            # {
+            #     "name": "cyanide",
+            #     "title": "",
+            #     "parser": CyanideParser
+            # },
             {
                 "name": "fokit",
                 "title": "Fok_It",
@@ -76,7 +76,12 @@ class Parser():
     def parse(name:str, path:str):
         for source in Parser.comicSources:
             if source['name'] == name:
-                return source['parser'].parse(path, source['title'])            
+                try:
+                    ret = source['parser'].parse(path, source['title'])            
+                except Exception as e:
+                    print("Exception:", e)
+                    return JsonResponse(data={"message": str(e)}, status=status.HTTP_204_NO_CONTENT)
+                return ret
         return JsonResponse(data={"content": "No parser found for requested comic: " + name}, 
                             status=status.HTTP_404_NOT_FOUND)
 

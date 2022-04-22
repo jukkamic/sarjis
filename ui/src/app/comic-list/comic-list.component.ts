@@ -21,10 +21,10 @@ export class ComicListComponent implements OnInit {
     this.comics.push({"name": "xkcd", display_name: "Xkcd", index:4});
     this.comics.push({"name": "smbc", display_name: "SMBC", index:5});
     this.comics.push({"name": "fokit", display_name: "Fok_It", index:6});
-    this.comics.push({"name": "cyanide", display_name: "Cyanide and Happiness", index:7});
-    this.comics.push({"name": "redmeat", display_name: "Red Meat", index:8});
-    this.comics.push({"name": "pbf", display_name: "Perry Bible Fellowship", index:9});
-    this.comics.push({"name": "velho", display_name: "Velho", index:10});
+    // this.comics.push({"name": "cyanide", display_name: "Cyanide and Happiness", index:7});
+    this.comics.push({"name": "redmeat", display_name: "Red Meat", index:7});
+    this.comics.push({"name": "pbf", display_name: "Perry Bible Fellowship", index:8});
+    this.comics.push({"name": "velho", display_name: "Velho", index:9});
    }
 
   ngOnInit(): void {

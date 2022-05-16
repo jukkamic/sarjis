@@ -6,6 +6,9 @@ from rest_framework import status
 from .models import Comic
 from .serializers import ComicSerializer
 import json
+import logging
+
+log = logging.getLogger('sarjis')
 
 @csrf_exempt
 def getComic(request, id:int):
@@ -34,7 +37,7 @@ def getLatest(request, name:str):
             comic = comic_serializer.save()            
             return Parser.updateLinks(name, comic)
         else:
-            print("Invalid serializer for latest comic: ", comic_serializer.errors)
+            log.error("Invalid serializer for latest comic: " + comic_serializer.errors)
             return JsonResponse(status=status.HTTP_500_INTERNAL_SERVER_ERROR, error = {
                  "message": [{"Invalid serializer for latest comic: ", comic_serializer.errors}]})
 
@@ -48,6 +51,7 @@ def getAllLatest(request):
     velho = getLatest(request, "velho")
     fokit = getLatest(request, "fokit")
     pbf = getLatest(request, "pbf")
+    luonto = getLatest(request, "luonto")
 
     return JsonResponse([
                          json.loads(fingerpori.content),
@@ -57,7 +61,8 @@ def getAllLatest(request):
                          json.loads(dilbert.content),
                          json.loads(velho.content),
                          json.loads(fokit.content),
-                         json.loads(pbf.content)
+                         json.loads(pbf.content),
+                         json.loads(luonto.content)
                          ], safe=False)
 
 @csrf_exempt

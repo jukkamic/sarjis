@@ -13,12 +13,37 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import os
 
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = True
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-IMAGE_URL = '/images/'
-IMAGE_ROOT = os.path.join(BASE_DIR,"images")
+MEDIA_URL = '/images/'
+MEDIA_ROOT = os.path.join(BASE_DIR,"images")
 # SESSION_COOKIE_DOMAIN = "localhost"
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'debug-sarjis.log',
+        },
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'sarjis': {
+            'handlers': ['file','console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
 
 CACHES = {
    'default': {
@@ -32,9 +57,6 @@ CACHES = {
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-d_l8jkpgbk8$-x+8$j_=!3juv=6et@esq_xix2vr$7y7n_v$ja'
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 

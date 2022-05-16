@@ -11,6 +11,9 @@ from ..serializers import ComicSerializer
 from ..models import Comic
 from django.http.response import JsonResponse
 from rest_framework import status
+import logging
+
+log = logging.getLogger('sarjis')
 
 class Parser():
 
@@ -79,7 +82,7 @@ class Parser():
                 try:
                     ret = source['parser'].parse(path, source['title'])            
                 except Exception as e:
-                    print("Exception:", e)
+                    log.exception(e)
                     return JsonResponse(data={"message": str(e)}, status=status.HTTP_204_NO_CONTENT)
                 return ret
         return JsonResponse(data={"content": "No parser found for requested comic: " + name}, 
@@ -87,8 +90,9 @@ class Parser():
 
     @staticmethod    
     def updateLinks(name:str, comic:any):
+        log.debug("update links for " + name)
         if not comic.prev_link:
-            print("Comic ", comic.name, ",\n", comic.perm_link, ",\nhas no predecessor.")
+            log.info("Comic " + comic.name + ",\n" + comic.perm_link + ",\nhas no predecessor.")
             return JsonResponse(ComicSerializer(comic, many=False).data, safe=False)
         else:
             # fetch prev, add current id as next, update prev_id for current
@@ -106,7 +110,7 @@ class Parser():
                 if prev_comic_serializer.is_valid():
                     prev_comic = prev_comic_serializer.save()
                 else:
-                    print("Invalid serializer for previous comic: ", prev_comic_serializer.errors)
+                    log.error("Invalid serializer for previous comic: " + prev_comic_serializer.errors)
                     return JsonResponse(
                         status=status.HTTP_500_INTERNAL_SERVER_ERROR, 
                         data = {"message": "Serializer error handling previous comic",

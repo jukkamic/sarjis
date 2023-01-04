@@ -48,7 +48,7 @@ def getAllLatest(request):
     smbc = getLatest(request, "smbc")
     vw = getLatest(request, "vw")
     dilbert = getLatest(request, "dilbert")
-    velho = getLatest(request, "velho")
+    # velho = getLatest(request, "velho")
     fokit = getLatest(request, "fokit")
     pbf = getLatest(request, "pbf")
     luonto = getLatest(request, "luonto")
@@ -59,7 +59,7 @@ def getAllLatest(request):
                          json.loads(xkcd.content),
                          json.loads(smbc.content),
                          json.loads(dilbert.content),
-                         json.loads(velho.content),
+                        #  json.loads(velho.content),
                          json.loads(fokit.content),
                          json.loads(pbf.content),
                          json.loads(luonto.content)

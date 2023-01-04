@@ -68,11 +68,11 @@ class Parser():
                 "title": "",
                 "parser": PbfParser
             },
-            {
-                "name": "velho",
-                "title": "Velho",
-                "parser": HsParser
-            }
+            # {
+            #     "name": "velho",
+            #     "title": "Velho",
+            #     "parser": HsParser
+            # }
         ]
 
     @staticmethod

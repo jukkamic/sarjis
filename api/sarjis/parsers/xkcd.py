@@ -12,11 +12,11 @@ class XkcdParser():
         
         start_img = page_html.find("Image URL (for hotlinking/embedding):")
         end_img = page_html.find("</a>", start_img)
-        img_soup = BeautifulSoup(page_html[start_img:end_img + 4], features="lxml")
+        img_soup = BeautifulSoup(page_html[start_img:end_img + 4])
         img_url = img_soup.find('a')['href']
         img_file = Common.saveImage(img_url)
 
-        soup = BeautifulSoup(page_html, features="lxml")
+        soup = BeautifulSoup(page_html)
 
         title = soup.find('div', {"id":"ctitle"}).contents[0]
         alt = soup.find('div', {"id":"comic"}).find('img')['title']

@@ -8,7 +8,7 @@ class PbfParser():
             path = "/comics/" + path.split("/")[-2] + "/"
         page_html = Common.fetchPage("pbfcomics.com", path)
 
-        soup = BeautifulSoup(page_html, features="lxml")
+        soup = BeautifulSoup(page_html)
 
         nav_tag = soup.find("div", attrs={"id": "pbf-bottom-pagination"})
 

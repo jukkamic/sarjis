@@ -7,7 +7,7 @@ class XkcdParser():
             
         start_perm_link = page_html.find("Permanent link to this comic:")
         end_perm_link = page_html.find("/>", start_perm_link)
-        perm_soup = BeautifulSoup(page_html[start_perm_link:end_perm_link + 2], features="lxml")
+        perm_soup = BeautifulSoup(page_html[start_perm_link:end_perm_link + 2])
         perm_link = perm_soup.find('a')['href']
         
         start_img = page_html.find("Image URL (for hotlinking/embedding):")

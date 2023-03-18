@@ -8,7 +8,7 @@ class RedmeatParser():
             path = "/max-cannon/FreshMeat"
         page_html = Common.fetchPage("www.redmeat.com", path)
 
-        soup = BeautifulSoup(page_html, features="lxml")
+        soup = BeautifulSoup(page_html)
 
         if path == "/max-cannon/FreshMeat":
             link_attr = soup.find("link", attrs={"rel": "canonical"})

@@ -6,7 +6,7 @@ class DilbertParser:
     def parse(path, title_in_html=""):
         page_html = Common.fetchPage("dilbert.com", path)
 
-        soup = BeautifulSoup(page_html, features="lxml")
+        soup = BeautifulSoup(page_html)
 
         meta_tag = soup.find("div", attrs={"class": "meta-info-container"})
 

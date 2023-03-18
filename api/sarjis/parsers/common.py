@@ -10,6 +10,8 @@ class Common():
     def saveImage(img_url:str):
         img_file = img_url.split('/')[-1]
         img_path = settings.MEDIA_ROOT
+        if not os.path.exists(img_path):            
+            os.mkdir(img_path)
         img_full_path = os.path.join(img_path, img_file)
         if not os.path.isfile(img_full_path):
             urllib.request.urlretrieve(img_url, img_full_path)   

@@ -2,6 +2,7 @@ from django.conf import settings
 import os
 import urllib.request
 import requests
+from bs4 import BeautifulSoup
 
 class Common():
 
@@ -24,4 +25,7 @@ class Common():
         page_html:str = response.text
         return page_html
 
+    @staticmethod 
+    def getSoup(page_html):
+        return BeautifulSoup(page_html, features="html.parser")
 

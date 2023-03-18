@@ -7,16 +7,17 @@ class XkcdParser():
             
         start_perm_link = page_html.find("Permanent link to this comic:")
         end_perm_link = page_html.find("/>", start_perm_link)
-        perm_soup = BeautifulSoup(page_html[start_perm_link:end_perm_link + 2])
+        perm_soup = Common.getSoup(page_html[start_perm_link:end_perm_link + 2])
         perm_link = perm_soup.find('a')['href']
         
         start_img = page_html.find("Image URL (for hotlinking/embedding):")
         end_img = page_html.find("</a>", start_img)
-        img_soup = BeautifulSoup(page_html[start_img:end_img + 4])
+        img_soup = Common.getSoup(page_html[start_img:end_img + 4])
+
         img_url = img_soup.find('a')['href']
         img_file = Common.saveImage(img_url)
 
-        soup = BeautifulSoup(page_html)
+        soup = Common.getSoup(page_html)
 
         title = soup.find('div', {"id":"ctitle"}).contents[0]
         alt = soup.find('div', {"id":"comic"}).find('img')['title']

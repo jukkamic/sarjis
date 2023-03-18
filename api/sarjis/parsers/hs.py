@@ -8,7 +8,7 @@ class HsParser():
             path = "/sarjakuvat/"
         page_html = Common.fetchPage("www.hs.fi", path)
 
-        soup = BeautifulSoup(page_html)
+        soup = Common.getSoup(page_html)
 
         if path == "/sarjakuvat/":
             perm_link = getPermLinkFromHS(soup, comicTitle)

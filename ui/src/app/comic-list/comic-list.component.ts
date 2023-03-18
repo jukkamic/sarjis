@@ -16,15 +16,12 @@ export class ComicListComponent implements OnInit {
   constructor(private service: ComicService) {
     this.comics.push({ "name": "fingerpori", display_name: "Fingerpori", index: 0 });
     this.comics.push({ "name": "vw", display_name: "Viivi ja Wagner", index: 1 });
-    this.comics.push({ "name": "dilbert", display_name: "Dilbert", index: 2 });
-    this.comics.push({ "name": "luonto", display_name: "Kamala luonto", index: 3 });
-    this.comics.push({ "name": "xkcd", display_name: "Xkcd", index: 4 });
-    this.comics.push({ "name": "smbc", display_name: "SMBC", index: 5 });
-    this.comics.push({ "name": "fokit", display_name: "Fok_It", index: 6 });
-    // this.comics.push({"name": "cyanide", display_name: "Cyanide and Happiness", index:7});
-    this.comics.push({ "name": "redmeat", display_name: "Red Meat", index: 7 });
-    this.comics.push({ "name": "pbf", display_name: "Perry Bible Fellowship", index: 8 });
-    // this.comics.push({"name": "velho", display_name: "Velho", index:9});
+    this.comics.push({ "name": "luonto", display_name: "Kamala luonto", index: 2 });
+    this.comics.push({ "name": "xkcd", display_name: "Xkcd", index: 3 });
+    this.comics.push({ "name": "smbc", display_name: "SMBC", index: 4 });
+    this.comics.push({ "name": "fokit", display_name: "Fok_It", index: 5 });
+    this.comics.push({ "name": "redmeat", display_name: "Red Meat", index: 6 });
+    this.comics.push({ "name": "pbf", display_name: "Perry Bible Fellowship", index: 7 });
   }
 
   ngOnInit(): void {

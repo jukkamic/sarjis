@@ -22,10 +22,6 @@ def getComic(request, id:int):
 def getLatest(request, name:str):
     comic_json = Parser.parse(name, "/")
     comic_json['name'] = name
-#    if(name == 'vw' or name== 'fokit'):
-#        return JsonResponse(status=500, 
-#        data={"message": "Error test", "status": "false"}, 
-#            safe=False)
     try:
         comic_from_db = Comic.objects.get(perm_link = comic_json['perm_link'])
         return JsonResponse(ComicSerializer(comic_from_db, many=False).data, safe=False)
@@ -47,8 +43,6 @@ def getAllLatest(request):
     xkcd = getLatest(request, "xkcd")
     smbc = getLatest(request, "smbc")
     vw = getLatest(request, "vw")
-    dilbert = getLatest(request, "dilbert")
-    # velho = getLatest(request, "velho")
     fokit = getLatest(request, "fokit")
     pbf = getLatest(request, "pbf")
     luonto = getLatest(request, "luonto")
@@ -58,8 +52,6 @@ def getAllLatest(request):
                          json.loads(vw.content),
                          json.loads(xkcd.content),
                          json.loads(smbc.content),
-                         json.loads(dilbert.content),
-                        #  json.loads(velho.content),
                          json.loads(fokit.content),
                          json.loads(pbf.content),
                          json.loads(luonto.content)
@@ -67,5 +59,4 @@ def getAllLatest(request):
 
 @csrf_exempt
 def getNames(request):    
-#    resp.set_cookie(key = 'mycookie', value = 'works')
     return JsonResponse(data=Parser.getComicNames(), safe=False)

@@ -34,11 +34,6 @@ class Parser():
                 "parser": LuontoParser
             },
             {
-                "name": "dilbert",
-                "title": "",
-                "parser": DilbertParser
-            },
-            {
                 "name": "xkcd",
                 "title": "",
                 "parser": XkcdParser

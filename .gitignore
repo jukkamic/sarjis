@@ -1,15 +1,18 @@
 # Sqlite3 database
 sarjis.db
-db.sqlite3
+api/db.sqlite3
 sarjis.code-workspace
 sarjis.sock
 
+# Logs
+api/*.log
+*.log
+
 # cache
-api/django_cache/*
+django_cache/
 
 # images
-#api/images/*
-# images contains its own gitignore now
+images/
 
 # Visual studio
 .vscode/
@@ -39,6 +42,7 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+static/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -66,7 +70,6 @@ coverage.xml
 *.pot
 
 # Django stuff:
-*.log
 local_settings.py
 
 # Flask stuff:

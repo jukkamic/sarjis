@@ -44,6 +44,7 @@ def getAllLatest(request):
     smbc = getLatest(request, "smbc")
     vw = getLatest(request, "vw")
     fokit = getLatest(request, "fokit")
+    redmeat = getLatest(request, "redmeat")
     pbf = getLatest(request, "pbf")
     luonto = getLatest(request, "luonto")
 
@@ -53,6 +54,7 @@ def getAllLatest(request):
                          json.loads(xkcd.content),
                          json.loads(smbc.content),
                          json.loads(fokit.content),
+                         json.loads(redmeat.content),
                          json.loads(pbf.content),
                          json.loads(luonto.content)
                          ], safe=False)
